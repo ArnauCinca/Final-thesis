@@ -16,5 +16,4 @@ state nextState(state s);
 
 
 
-
 #endif

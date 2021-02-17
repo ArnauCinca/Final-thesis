@@ -9,7 +9,8 @@ typedef struct montecarlo{
 
 montecarlo* montecarlo1D(unsigned int N, double a, unsigned int steps);
 
-void runAllSteps(montecarlo* mc);
+void runAllStates(montecarlo* mc);
 
-void runOneStep(montecarlo* mc);
+void runOneState(montecarlo* mc);
 
+double centerOfMasesStateI(montecarlo* mc, unsigned int i);
