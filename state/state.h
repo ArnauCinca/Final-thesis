@@ -7,12 +7,13 @@
 
 typedef struct state{
 	unsigned int n_particles;
+	double a;
 	coords* particle_coords;
 } state;
 
 
-state newState1D(unsigned int N);
-state nextState(state s);
+void initState(state* s, unsigned int N, double a, double initial_dispersion);
+void nextState(state* s, state* ns);
 
 
 

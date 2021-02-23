@@ -6,9 +6,10 @@
 int main(int argc, char** argv){
 //	srand(1111);
 	unsigned int N = 100;
-	unsigned int steps = 100;
 	double a = 1.0;
-	if(argc > 1){ //N
+	double initial_dispersion = 5.5;  //particle spawn (-initial_dispersion,initial dispersion)
+	unsigned int histogram_definition = 1; //1 -> -50, -49,.., 49,50; 10 -> -50, -49.9,...,49.9,50; ...
+	/*if(argc > 1){ //N
 		long r = strtol(argv[1], NULL, 10);
 		if(r > 0){
 			N = r;
@@ -17,7 +18,12 @@ int main(int argc, char** argv){
 		else{
 			printf("Invalid N (first argument), must be >0\n");
 		}
-	}
-	montecarlo* mc1D = montecarlo1D(N, a, steps);
-			printf("%f\n",centerOfMasesStateI(mc1D,0));	
+	}*/
+	montecarlo* mc = montecarloInit(N, a, initial_dispersion, histogram_definition);
+	printHisto(mc);
+//	runOneStep(mc);
+//	printHisto(mc);
+	runNSteps(mc,100);
+	printHisto(mc);
+//	printf("%f\n",centerOfMasesStateI(mc));	
 }

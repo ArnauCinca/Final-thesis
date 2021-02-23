@@ -1,35 +1,71 @@
 #include "state.h"
+#include <math.h>
 
-
-state newState1D(unsigned int N){
-	state s;
-	s.n_particles = N;
-	s.particle_coords = malloc(N*sizeof(coords));
-	for(int i = 0; i<N; i++){
-		s.particle_coords[i] = coordsRandomInit();
-	}
-	return s;
+//1D
+//u1 = 0
+double u1 (coords c){
+	return 0;
+}
+//1D
+//u2 = -r/a
+double u2(double d, double a){
+	return -d/a;
 }
 
 
-state nextState(state s/*, prob_func*/){
-	state ns;
-	ns.n_particles = s.n_particles;
-	ns.particle_coords = malloc(ns.n_particles*sizeof(coords));
-	for(int i = 0; i<ns.n_particles; i++){
-		ns.particle_coords[i] = s.particle_coords[i];
+//pn/po =exp(2*inc_u)
+//if inc_u > 0 then pn/po>1 -> pn > po
+//else "inc_u < 0" then pn < po
+double inc_u(state* s, state* ns, int i){
+//(u1-u1) + sum(u2-u2)
+
+double res = u1(ns->particle_coords[i]) - u1(s->particle_coords[i]);
+double sum = 0;
+for(int j = 0; j< s->n_particles; ++j){
+	if(j != i){  //no need because dist of coord[i] & coord[i] = 0
+		//for now a = 1
+		sum += u2(abs(dist(ns->particle_coords[i], ns->particle_coords[j])),ns->a) -
+			   u2(abs(dist( s->particle_coords[i],  s->particle_coords[j])), s->a);
+	}
+}
+return res + sum;
+
+
+
+}
+
+
+
+void initState(state* s, unsigned int N, double a, double initial_dispersion){
+	s->n_particles = N;
+	s->a = a;
+	s->particle_coords = malloc(s->n_particles*sizeof(coords));
+	for(int i = 0; i < s->n_particles; i++){
+		coordsRandomInit(&(s->particle_coords[i]), initial_dispersion);
+	}
+}
+
+
+//single particle move
+void nextState(state* s, state *ns){
+	
+	for(int i = 0; i < ns->n_particles; i++){
+		ns->particle_coords[i] = s->particle_coords[i];
 	}
 
-	for(int i = 0; i<ns.n_particles; i++){
-		randomMove(&ns.particle_coords[i]);
+	for(int i = 0; i < ns->n_particles; i++){
+		randomMove(&ns->particle_coords[i]);
 		
 		//probability
-		double pn = 0.0;
-		double po = 0.0;
-		if(pn < po){
-			int x = (int)(pn/po + randomInRange(0,1));
-			if(x == 0) ns.particle_coords[i] = s.particle_coords[i];
+		//if mas grande conserva el cambio
+		double u = inc_u(s,ns,i);
+		//if u > 0 accept change
+		if(u <= 0){
+			int x = (int)(exp(2*u) + randomInRange(0,1));
+			if(x == 0) ns->particle_coords[i] = s->particle_coords[i];
+			//if > 1 accept change 
 		}
 	}
-	return ns;
 }
+
+

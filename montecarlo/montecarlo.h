@@ -1,16 +1,19 @@
 #include "../state/state.h"
 
 typedef struct montecarlo{
-	unsigned int last_state;
-	unsigned int max_states;
-	state* states;
+	unsigned int* histo;
+	unsigned int histogram_definition;
+	state* last_state;
+	state* next_state;
 } montecarlo;
 
 
-montecarlo* montecarlo1D(unsigned int N, double a, unsigned int steps);
+montecarlo* montecarloInit(unsigned int N,  double a, double initial_dispersion, unsigned int histogram_definition);
 
-void runAllStates(montecarlo* mc);
+void runOneStep(montecarlo* mc);
 
-void runOneState(montecarlo* mc);
+void runNSteps(montecarlo* mc, unsigned int steps);
 
-double centerOfMasesStateI(montecarlo* mc, unsigned int i);
+double centerOfMasesStateI(montecarlo* mc);
+
+void printHisto(montecarlo* mc);

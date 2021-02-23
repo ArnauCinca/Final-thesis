@@ -6,18 +6,28 @@
 
 double dist(coords i, coords j){
 	double dx = i.x-j.x;
-	return sqrt(dx*dx);
+//#ifdef tri_dim
+//	double dy = 0;
+//	double dz = 0;
+//	return sqrt(dx*dx +dy*dy + dz*dz);
+//#else
+	return abs(dx);
+//#endif
 }
 
 
 
 
-coords coordsRandomInit(){
-	coords i;
-	i.x = randomInRange(0,1);
-	return i;
+void coordsRandomInit(coords* c, double initial_dispersion){
+	c->x = randomInRange(-initial_dispersion,initial_dispersion);
+//#ifdef tri_dim
+
+//#endif
 }
 
 void randomMove(coords* c){
 	c->x += randomInRange(-1,1);
+//#ifdef tri_dim
+
+//#endif
 }
