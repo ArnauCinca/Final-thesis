@@ -3,13 +3,25 @@
 
 //1D
 //u1 = 0
+//3D
+//u1 = -alpha*(x^2 +y^2)
 double u1 (coords c){
+#ifdef TRIDIM
+	return -1*(c.x*c.x + c.y*c.y); //alpha?
+#else
 	return 0;
+#endif
 }
 //1D
 //u2 = -r/a
+//3D
+//u2 = -r/a - ln r
 double u2(double d, double a){
+#ifdef TRIDIM
+	return -d/a - log(d);
+#else
 	return -d/a;
+#endif
 }
 
 

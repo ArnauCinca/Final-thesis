@@ -1,13 +1,13 @@
 #include <stdlib.h>
 #include "../misc/misc.h"
 
-//#define tri_dim 1
+#define TRIDIM 0  //0 1D; 1 3D
 typedef struct coords{
     double x;
-//#ifdef tri_dim
-//	double y;
-//	double z;	
-//#endif
+#ifdef TRIDIM
+	double y;
+	double z;	
+#endif
 } coords;
 
 double dist(coords i, coords j);

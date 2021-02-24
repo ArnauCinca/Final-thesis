@@ -9,17 +9,16 @@ montecarlo* montecarloInit(unsigned int N,  double a, double initial_dispersion,
 	mc->last_state = malloc(sizeof(state));
 	mc->next_state = malloc(sizeof(state));
 	
-	for (int i = 0; i< 101; ++i){
+	for (int i = 0; i< 100*histogram_definition+1; ++i){
 		mc->histo[i] = 0;
 	}
 	
 	initState(mc->last_state, N, a, initial_dispersion);
-	for(int i = 0; i<N; i++){
-		mc->histo[(int)(mc->last_state->particle_coords[i].x*histogram_definition)+50*histogram_definition]++;
-	}
 	
 	initState(mc->next_state, N, a, initial_dispersion);
-
+	
+	runOneStep(mc);
+	
 	return mc;
 }
 
