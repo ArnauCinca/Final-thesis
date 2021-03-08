@@ -3,13 +3,13 @@
 #include "main.h"
 #include "montecarlo/montecarlo.h"
 double a = 100.0;
+unsigned int N = 10;
 
 	//histo distancias
 	//definition -> resolition
 	//define elements by all the range (histo)
 int main(int argc, char** argv){
 	srand(1111);
-	unsigned int N = 10;
 //	double a = 10.0;
 	double initial_dispersion = a/(2.0*N);  //particle spawn (-initial_dispersion,initial dispersion)
 	//histogram_step
@@ -26,15 +26,15 @@ int main(int argc, char** argv){
 			printf("Invalid N (first argument), must be >0\n");
 		}
 	}*/
-	montecarlo* mc = montecarloInit(N, a, initial_dispersion, histogram_resolution, histogram_range);
+	montecarlo* mc = montecarloInit(initial_dispersion, histogram_resolution, histogram_range);
 //	printHisto(mc);
 //McGuire(x) = ((N-1)/cosh(((N-1)*x)/a)**2)/(2.*a)
 
 
-	runNSteps(mc,100000);
+	runNSteps(mc,10000000);
 	printHisto(mc);
 	printf("----------------------------------------------------------------------------------\n");
-	for (int i  =0; i< mc->state->n_particles; ++i){
+	for (int i  =0; i< N; ++i){
 		printf("%f\n",mc->state->particle_coords[i].x);
 	}
 	printf("----------------------------------------------------------------------------------\n");

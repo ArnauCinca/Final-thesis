@@ -1,7 +1,7 @@
 #include "montecarlo.h"
 #include <stdio.h>
 
-montecarlo* montecarloInit(unsigned int N,  double a, double initial_dispersion, unsigned int histogram_definition, unsigned int histogram_range){
+montecarlo* montecarloInit(double initial_dispersion, unsigned int histogram_definition, unsigned int histogram_range){
 	montecarlo* mc = malloc(sizeof(montecarlo));
 	mc->histo = malloc(101*histogram_definition*sizeof(int));//[-50,50,hd]
 	mc->histogram_definition = histogram_definition;
@@ -12,7 +12,7 @@ montecarlo* montecarloInit(unsigned int N,  double a, double initial_dispersion,
 		mc->histo[i] = 0;
 	}
 	
-	initState(mc->state, N, a, initial_dispersion);
+	initState(mc->state, initial_dispersion);
 	
 	
 	mc->steps = 0;	
@@ -26,7 +26,7 @@ void runOneStep(montecarlo* mc){
 	//sum to hist
 	double x;
 	double center = centerOfMasesState(mc);
-	for(int i = 0; i< mc->state->n_particles; i++){
+	for(int i = 0; i< N; i++){
 		x = mc->state->particle_coords[i].x - center;
 		if(x > -50  && x < 50){
 			mc->histo[(int)(x*mc->histogram_definition)+50*mc->histogram_definition]++;
@@ -47,10 +47,10 @@ void runNSteps(montecarlo* mc, unsigned int N){
 double centerOfMasesState(montecarlo* mc){
 	double sum = 0;
 	
-	for(int i =0; i<mc->state->n_particles; ++i){
+	for(int i =0; i<N; ++i){
 		sum += mc->state->particle_coords[i].x;
 	}
-	return sum/(double)mc->state->n_particles;
+	return sum/(double)N;
 }
 
 void printHisto(montecarlo* mc){

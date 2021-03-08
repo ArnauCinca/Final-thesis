@@ -34,7 +34,7 @@ double inc_u(state* s, coords particle_old, int i){
 
 double res = u1(s->particle_coords[i]) - u1(particle_old);
 double sum = 0;
-for(int j = 0; j< s->n_particles; j++){
+for(int j = 0; j< N; j++){
     if(j != i){  
         sum += u2(dist(s->particle_coords[i] , s->particle_coords[j])) -
                u2(dist(      particle_old    , s->particle_coords[j]));
@@ -48,13 +48,11 @@ return res + sum;
 
 
 
-void initState(state* s, unsigned int N, double a, double initial_dispersion){
-	s->n_particles = N;
-	s->a = a;
+void initState(state* s, double initial_dispersion){
 	s->rejected = 0;
 	s->tryed = 0;
-	s->particle_coords = malloc(s->n_particles*sizeof(coords));
-	for(int i = 0; i < s->n_particles; i++){
+	s->particle_coords = malloc(N*sizeof(coords));
+	for(int i = 0; i < N; i++){
 		coordsRandomInit(&(s->particle_coords[i]), initial_dispersion);
 	}
 }
@@ -64,7 +62,7 @@ void initState(state* s, unsigned int N, double a, double initial_dispersion){
 void nextState(state* s){
 
 	coords c;
-	for(int i = 0; i < s->n_particles; i++){
+	for(int i = 0; i < N; i++){
 		s->tryed++;
 		c = s->particle_coords[i];
 		randomMove(&s->particle_coords[i]);
