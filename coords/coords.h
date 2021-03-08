@@ -4,7 +4,7 @@
 #define TRIDIM 0  //0 1D; 1 3D
 typedef struct coords{
     double x;
-#ifdef TRIDIM
+#if TRIDIM == 1
 	double y;
 	double z;	
 #endif

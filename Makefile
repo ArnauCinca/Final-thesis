@@ -7,8 +7,8 @@ all:
 	rm -f main
 main: main.c
 	mkdir -p makes/main
-	gcc -o makes/main/main.o -c main.c
-	gcc makes/*.o makes/main/main.o -o main -lm
+	gcc -o makes/main/main.o -c main.c -Wall
+	gcc makes/*.o makes/main/main.o -o main -lm -Wall
 
 clean:
 	rm -r makes
