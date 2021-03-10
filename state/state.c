@@ -82,3 +82,11 @@ void nextState(state* s){
 }
 
 
+double centerOfMases(state* s){
+	double sum = 0;
+	
+	for(int i =0; i<N; ++i){
+		sum += s->particle_coords[i].x;
+	}
+	return sum/(double)N;
+}
