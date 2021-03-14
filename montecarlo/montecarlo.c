@@ -3,10 +3,10 @@
 
 montecarlo* montecarloInit(double initial_dispersion, unsigned int histogram_resolution, unsigned int histogram_range){
 	montecarlo* mc = malloc(sizeof(montecarlo));
-	mc->histo = malloc(sizeof(histogram));//[-50,50,hd]
+	mc->histo = malloc(sizeof(histogram));
 	mc->state = malloc(sizeof(state));
 	
-	initHistogram(mc->histo, histogram_resolution, histogram_range);
+	initHistogram(mc->histo, 20.0 , 100); //[-10.0, 10.0]
 	initState(mc->state, initial_dispersion);
 	
 	runOneStep(mc);
@@ -17,7 +17,7 @@ void runOneStep(montecarlo* mc){
 	//step
 	nextState(mc->state);
 	//sum to hist
-	addStep(mc->histo, mc->state);
+	addDensityProfile(mc->histo, mc->state);
 }
 
 void runNSteps(montecarlo* mc, unsigned int N){

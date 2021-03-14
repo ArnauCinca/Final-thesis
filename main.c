@@ -2,38 +2,49 @@
 #include <stdio.h>
 #include "main.h"
 #include "montecarlo/montecarlo.h"
+
 double a = 100.0;
 unsigned int N = 10;
 
-	//define elements by all the range (histo)
 int main(int argc, char** argv){
 	srand(1111);
 	double initial_dispersion = a/(2.0*N);  //particle spawn (-initial_dispersion,initial dispersion)
 	unsigned int histogram_resolution = 1;//1/N //1 -> -50, -49,.., 49,50; 10 -> -50, -49.9,...,49.9,50; ...
 	unsigned int histogram_range = 15; //[-r,r]
-	/*if(argc > 1){ //N
-		long r = strtol(argv[1], NULL, 10);
-		if(r > 0){
-			N = r;
-			printf("Now N is %d \n", N);
-		}
-		else{
-			printf("Invalid N (first argument), must be >0\n");
-		}
-	}*/
+	if(argc > 1){ //N
+		int t;
+		 sscanf(argv[1],"%d", &t);
+		if(t>0) N = t;
+		else return 0;
+	}
+	if(argc > 2){ //N
+		 sscanf(argv[2],"%lf", &a);
+	}
+
+
+	char str[256];
+	sprintf(str, "out%d-%f.dat", N,a);
+	if(argc > 3){
+		sprintf(str, "%s", argv[3]);
+		
+	}
+
+	FILE *fp;	
+	fp = fopen(str, "w");
 	montecarlo* mc = montecarloInit(initial_dispersion, histogram_resolution, histogram_range);
 //McGuire(x) = ((N-1)/cosh(((N-1)*x)/a)**2)/(2.*a)
 
 
-	runNSteps(mc,10000000);
-	printHistogram(mc->histo);
-	printf("----------------------------------------------------------------------------------\n");
-	for (int i  =0; i< N; ++i){
-		printf("%f\n",mc->state->particle_coords[i].x);
-	}
-	printf("----------------------------------------------------------------------------------\n");
+	runNSteps(mc,1000000);
+	printHistogram(mc->histo, fp);
+	fclose(fp);
+//	printf("----------------------------------------------------------------------------------\n");
+//	for (int i  =0; i< N; ++i){
+//		printf("%f\n",mc->state->particle_coords[i].x);
+//	}
+//	printf("----------------------------------------------------------------------------------\n");
 	
-	printf("Accrptance ratio: %lf\n", 1.-(double)mc->state->rejected/(double)mc->state->tryed);
+//	printf("Accrptance ratio: %lf\n", 1.-(double)mc->state->rejected/(double)mc->state->tryed);
 	//printf("Rejected: %d\n", mc->state->rejected);
 //	printf("%f\n",centerOfMasesStateI(mc));	
 }

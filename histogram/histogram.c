@@ -1,36 +1,53 @@
 #include "histogram.h"
-#include <stdio.h>
 
 
-void initHistogram(histogram* h, unsigned int histogram_resolution, unsigned int histogram_range){
-	h->histogram_resolution = histogram_resolution;
-	h->histogram_range = histogram_range;
-	h->histo = malloc((2*50*histogram_resolution+1)* sizeof(unsigned int));
-	for(int i = 0; i<2*50*histogram_resolution+1; ++i){
+void initHistogram(histogram* h, double range, unsigned int size){
+	h->size = size;
+	h->range = range;
+	h->delta_x = (2.0*range)/(double)size;
+	h->histo = calloc(size,sizeof(unsigned int));
+	/*for(int i = 0; i<size; ++i){
 		h->histo[i] = 0;
-	}
-	h->steps = 0;
+	}*/
+//	printf("Hola");
+	h->iterations = 0;
 }
-void addStep(histogram* h, state* s){
+
+
+void addDensityProfile(histogram* h, state* s){
  double x;
  double center = centerOfMases(s);
- for(int i = 0; i< N; i++){
+ int index;
+ for(int i = 0; i < N; i++){
    x = s->particle_coords[i].x - center;
-   if(x > -50  && x < 50){
-     h->histo[(int)(x*h->histogram_resolution)+50*h->histogram_resolution]++; //TODO: index
+   x += h->range;
+   index = (int)(x/h->delta_x);  //20/
+   if(index > 0  && index < h->size){
+     h->histo[index]++; //TODO: index   (-1,1) -> 0
     }
   }
-  ++h->steps;
+  ++h->iterations;
 }
-void printHistogram(histogram* h){
-    double normalization = 0.0;
-    for(int i = 0; i<2*50*h->histogram_resolution+1; ++i){
-        normalization += (double)(h->histo[i] * h->histogram_resolution)/(double)(h->steps);
-        printf("%f: %f \n", (double)(i)/h->histogram_resolution-50.0, (double)(h->histo[i] * h->histogram_resolution)/(double)(h->steps));
-    }
-    normalization /=  (double)h->histogram_resolution;   //1/def
-    printf("norm: %f\n", normalization);
+
+//void addDistributionFunction()
 
 
+//void addEnergy
 
+
+void printHistogram(histogram* h, FILE *fp){
+    double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);  //(10/(1000000*0.x)) // (N/(it*d))-> d/(it*N)
+//	printf("N: %f\n", normalization );
+	if(fp == NULL){
+    	for(int i = 0; i<h->size; i++){
+        	printf("%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histo[i] * normalization ); //size = 2 r =1 -> (-1,0) ->  (-.5, 0.5)i
+    	}
+	}
+	else{
+    	for(int i = 0; i<h->size; i++){
+			fprintf(fp, "%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histo[i] * normalization);
+    	}
+
+	}
+    //printf("norm: %f\n", normalization);
 }
