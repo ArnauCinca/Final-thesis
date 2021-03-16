@@ -6,7 +6,7 @@ typedef struct montecarlo{
 } montecarlo;
 
 
-montecarlo* montecarloInit(double initial_dispersion, unsigned int histogram_resolution, unsigned int histogram_range);
+montecarlo* montecarloInit(double initial_dispersion, unsigned int histogram_size, unsigned int histogram_range);
 
 void runOneStep(montecarlo* mc);
 

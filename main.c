@@ -8,18 +8,21 @@ unsigned int N = 10;
 
 int main(int argc, char** argv){
 	srand(1111);
-	double initial_dispersion = a/(2.0*N);  //particle spawn (-initial_dispersion,initial dispersion)
-	unsigned int histogram_resolution = 1;//1/N //1 -> -50, -49,.., 49,50; 10 -> -50, -49.9,...,49.9,50; ...
-	unsigned int histogram_range = 15; //[-r,r]
 	if(argc > 1){ //N
 		int t;
 		 sscanf(argv[1],"%d", &t);
 		if(t>0) N = t;
 		else return 0;
 	}
-	if(argc > 2){ //N
+	if(argc > 2){ //a
 		 sscanf(argv[2],"%lf", &a);
 	}
+
+
+	double initial_dispersion = a/(2.0*N);  //particle spawn (-initial_dispersion,initial dispersion)
+	unsigned int histogram_range = (int) a+1;//15; //[-r,r]
+	unsigned int histogram_size = 100;//1/N //1 -> -50, -49,.., 49,50; 10 -> -50, -49.9,...,49.9,50; ...
+
 
 
 	char str[256];
@@ -31,7 +34,7 @@ int main(int argc, char** argv){
 
 	FILE *fp;	
 	fp = fopen(str, "w");
-	montecarlo* mc = montecarloInit(initial_dispersion, histogram_resolution, histogram_range);
+	montecarlo* mc = montecarloInit(initial_dispersion, histogram_size, histogram_range);
 //McGuire(x) = ((N-1)/cosh(((N-1)*x)/a)**2)/(2.*a)
 
 
@@ -46,5 +49,6 @@ int main(int argc, char** argv){
 	
 //	printf("Accrptance ratio: %lf\n", 1.-(double)mc->state->rejected/(double)mc->state->tryed);
 	//printf("Rejected: %d\n", mc->state->rejected);
-//	printf("%f\n",centerOfMasesStateI(mc));	
+//	printf("%f\n",centerOfMasesStateI(mc));
+	printf("Done: out%d-%f.dat\n", N, a);	
 }

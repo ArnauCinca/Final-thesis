@@ -29,7 +29,20 @@ void addDensityProfile(histogram* h, state* s){
   ++h->iterations;
 }
 
-//void addDistributionFunction()
+void addDistributionFunction(histogram* h, state* s){
+	double x;
+	int index;
+	for(int i = 0; i<N; i++){
+		for(int j = i+1; j<N; j++){
+			x = dist(s->particle_coords[i], s->particle_coords[j]);
+			index = (int)(x/h->delta_x);
+			if(index > 0 && index < h->size){
+				h->histo[index]++;
+			}
+		}
+	}
+	++h->iterations;
+}
 
 
 //void addEnergy

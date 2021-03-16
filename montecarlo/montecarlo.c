@@ -1,12 +1,12 @@
 #include "montecarlo.h"
 #include <stdio.h>
 
-montecarlo* montecarloInit(double initial_dispersion, unsigned int histogram_resolution, unsigned int histogram_range){
+montecarlo* montecarloInit(double initial_dispersion, unsigned int histogram_size, unsigned int histogram_range){
 	montecarlo* mc = malloc(sizeof(montecarlo));
 	mc->histo = malloc(sizeof(histogram));
 	mc->state = malloc(sizeof(state));
 	
-	initHistogram(mc->histo, 20.0 , 100); //[-10.0, 10.0]
+	initHistogram(mc->histo, histogram_range, histogram_size); //[-10.0, 10.0]
 	initState(mc->state, initial_dispersion);
 	
 	runOneStep(mc);
