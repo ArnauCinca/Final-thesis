@@ -1,2 +1,2 @@
 McGuire(x) = ((N-1)/cosh(((N-1)*x)/a)**2)/(2.*a)
-McGuire2(x) = 2*ep(-2*abs(x)/a)/a
+McGuire2(x) = 2*exp(-2*abs(x)/a)/a

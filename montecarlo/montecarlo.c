@@ -1,7 +1,7 @@
 #include "montecarlo.h"
 #include <stdio.h>
 
-montecarlo* montecarloInit(double initial_dispersion, unsigned int histogram_size, unsigned int histogram_range){
+montecarlo* montecarloInit(double initial_dispersion, unsigned int histogram_size, double histogram_range){
 	montecarlo* mc = malloc(sizeof(montecarlo));
 	mc->histo = malloc(sizeof(histogram));
 	mc->state = malloc(sizeof(state));
@@ -17,6 +17,7 @@ void runOneStep(montecarlo* mc){
 	//step
 	nextState(mc->state);
 	//sum to hist
+	
 	addDensityProfile(mc->histo, mc->state);
 }
 

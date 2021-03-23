@@ -5,6 +5,8 @@
 
 double a = 100.0;
 unsigned int N = 10;
+	
+//TODO: save configuration
 
 int main(int argc, char** argv){
 	srand(1111);
@@ -20,35 +22,37 @@ int main(int argc, char** argv){
 
 
 	double initial_dispersion = a/(2.0*N);  //particle spawn (-initial_dispersion,initial dispersion)
-	unsigned int histogram_range = (int) a+1;//15; //[-r,r]
-	unsigned int histogram_size = 100;//1/N //1 -> -50, -49,.., 49,50; 10 -> -50, -49.9,...,49.9,50; ...
+	double histogram_range =  (a/((double)(N-1)))*3.0; //[-r,r]
+	unsigned int histogram_size = 100;
 
 
 
 	char str[256];
 	sprintf(str, "out%d-%f.dat", N,a);
-	if(argc > 3){
-		sprintf(str, "%s", argv[3]);
-		
-	}
 
 	FILE *fp;	
 	fp = fopen(str, "w");
+
+
+
+	//new class (experiment)-------------------------------
 	montecarlo* mc = montecarloInit(initial_dispersion, histogram_size, histogram_range);
-//McGuire(x) = ((N-1)/cosh(((N-1)*x)/a)**2)/(2.*a)
 
 
 	runNSteps(mc,1000000);
-	printHistogram(mc->histo, fp);
-	fclose(fp);
-//	printf("----------------------------------------------------------------------------------\n");
-//	for (int i  =0; i< N; ++i){
-//		printf("%f\n",mc->state->particle_coords[i].x);
-//	}
-//	printf("----------------------------------------------------------------------------------\n");
+	/*
 	
-//	printf("Accrptance ratio: %lf\n", 1.-(double)mc->state->rejected/(double)mc->state->tryed);
-	//printf("Rejected: %d\n", mc->state->rejected);
-//	printf("%f\n",centerOfMasesStateI(mc));
+	for (nmedidas){
+	 	run N step
+	 	get metrics(energy, pairs, histo, ...)
+	} 
+	*/
+	//energy to array, energy write directly
+
+
+	printHistogram(mc->histo, fp);
+	//------------------------------------------
+	fclose(fp);
+	
 	printf("Done: out%d-%f.dat\n", N, a);	
 }

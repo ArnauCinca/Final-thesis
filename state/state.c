@@ -36,14 +36,11 @@ double res = u1(s->particle_coords[i]) - u1(particle_old);
 double sum = 0;
 for(int j = 0; j< N; j++){
     if(j != i){  
-        sum += u2(dist(s->particle_coords[i] , s->particle_coords[j])) -
-               u2(dist(      particle_old    , s->particle_coords[j]));
-    }
-}
-return res + sum;
-
-
-
+       		sum += u2(dist(s->particle_coords[i] , s->particle_coords[j])) -
+              	       u2(dist(      particle_old    , s->particle_coords[j]));
+    	}
+	}
+	return res + sum;
 }
 
 
@@ -81,6 +78,9 @@ void nextState(state* s){
 	}
 }
 
+//each x iterations do other metrics
+//pairs
+//void energy(....)
 
 double centerOfMases(state* s){
 	double sum = 0;

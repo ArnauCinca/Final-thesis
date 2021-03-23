@@ -32,8 +32,8 @@ void addDensityProfile(histogram* h, state* s){
 void addDistributionFunction(histogram* h, state* s){
 	double x;
 	int index;
-	for(int i = 0; i<N; i++){
-		for(int j = i+1; j<N; j++){
+	for(int i = 0; i < N; i++){
+		for(int j = i+1; j < N; j++){
 			x = dist(s->particle_coords[i], s->particle_coords[j]);
 			index = (int)(x/h->delta_x);
 			if(index > 0 && index < h->size){
@@ -43,23 +43,25 @@ void addDistributionFunction(histogram* h, state* s){
 	}
 	++h->iterations;
 }
+// normalization: N(N-1)/2
+// double the range 
 
 
-//void addEnergy
+//void addEnergy()
 
 
 void printHistogram(histogram* h, FILE *fp){
     double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);  //(10/(1000000*0.x)) // (N/(it*d))-> d/(it*N)
 //	printf("N: %f\n", normalization );
 	if(fp == NULL){
-    	for(int i = 0; i<h->size; i++){
-        	printf("%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histo[i] * normalization ); //size = 2 r =1 -> (-1,0) ->  (-.5, 0.5)i
-    	}
+    		for(int i = 0; i<h->size; i++){
+        		printf("%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histo[i] * normalization ); //size = 2 r =1 -> (-1,0) ->  (-.5, 0.5)i
+    		}
 	}
 	else{
-    	for(int i = 0; i<h->size; i++){
+    		for(int i = 0; i<h->size; i++){
 			fprintf(fp, "%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histo[i] * normalization);
-    	}
+    		}
 
 	}
     //printf("norm: %f\n", normalization);
