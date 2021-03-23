@@ -1,6 +1,6 @@
 #include "state.h"
 #include <math.h>
-
+#include <stdio.h>
 
 
 //1D
@@ -26,6 +26,10 @@ double u2(double d){
 #endif
 }
 
+double u2p(double d){
+	return -1/a; //??
+}
+
 //pn/po =exp(2*inc_u)
 //if inc_u > 0 then pn/po>1 -> pn > po
 //else "inc_u < 0" then pn < po
@@ -41,6 +45,21 @@ for(int j = 0; j< N; j++){
     	}
 	}
 	return res + sum;
+}
+
+
+double drift_force(state* s, int i){
+	double force = 0.0;
+	//u1'
+	//1D = 0
+	//u2'
+	for(int j = 0; j< N; j++){
+    	if(j != i){  
+			force += u2p(dist(s->particle_coords[i], s->particle_coords[j])) * (s->particle_coords[i].x - s->particle_coords[j].x);
+		}
+	}
+//	printf("Force: %f\n", force);
+	return force;
 }
 
 
@@ -89,4 +108,15 @@ double centerOfMases(state* s){
 		sum += s->particle_coords[i].x;
 	}
 	return sum/(double)N;
+}
+
+
+
+double getEnergy(state *s){
+	double energy = 0.0;
+	for(int i = 0; i<N; i++){
+		energy += drift_force(s, i);
+	}
+	//energy *= 1.0; //(plank/2m)
+	return energy;
 }

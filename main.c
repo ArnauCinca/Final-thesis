@@ -2,11 +2,15 @@
 #include <stdio.h>
 #include "main.h"
 #include "montecarlo/montecarlo.h"
+#include "histogram/histogram.h"
 
 double a = 100.0;
 unsigned int N = 10;
 	
 //TODO: save configuration
+
+
+
 
 int main(int argc, char** argv){
 	srand(1111);
@@ -28,31 +32,45 @@ int main(int argc, char** argv){
 
 
 	char str[256];
-	sprintf(str, "out%d-%f.dat", N,a);
+	sprintf(str, "dp%d-%.2f.dat", N,a);
 
-	FILE *fp;	
-	fp = fopen(str, "w");
+	FILE *fp_dp;	
+	fp_dp = fopen(str, "w");
 
 
+	sprintf(str, "dist%d-%.2f.dat", N,a);
+	FILE *fp_dist;	
+	fp_dist = fopen(str, "w");
 
+
+	unsigned int total_iterations = 1000000;
+	unsigned int measurements = 10000;
 	//new class (experiment)-------------------------------
-	montecarlo* mc = montecarloInit(initial_dispersion, histogram_size, histogram_range);
+	montecarlo* mc = montecarloInit(initial_dispersion);
+    histogram* dp = densityProfileInit(histogram_range, histogram_size); //[-10.0, 10.0]
+    histogram* dist = distributionInit(histogram_range, histogram_size); //[-10.0, 10.0]
 
 
-	runNSteps(mc,1000000);
-	/*
+	//runNSteps(mc,1000000);
 	
-	for (nmedidas){
-	 	run N step
-	 	get metrics(energy, pairs, histo, ...)
+	
+	for (int i = 0; i<measurements; ++i){
+		runNSteps(mc,total_iterations/measurements);
+ 		dp->addIteration(dp, mc->state);
+ 		dist->addIteration(dist, mc->state);
+		printf("Energy:%.25lf\n", getEnergy(mc->state));
+	 	//get metrics(energy, pairs, histo, ...)
 	} 
-	*/
+	
 	//energy to array, energy write directly
 
 
-	printHistogram(mc->histo, fp);
+	printHistogram(dp, fp_dp);
+
+	printHistogram(dist, fp_dist);
 	//------------------------------------------
-	fclose(fp);
+	fclose(fp_dp);
+	fclose(fp_dist);
 	
-	printf("Done: out%d-%f.dat\n", N, a);	
+	printf("Done: out%d-%.2f.dat\n", N, a);	
 }

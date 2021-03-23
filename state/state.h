@@ -21,7 +21,7 @@ typedef struct state{
 void initState(state* s, double initial_dispersion);
 void nextState(state* s);
 double centerOfMases(state* s);
-
+double getEnergy(state *s);
 
 
 #endif

@@ -1,19 +1,5 @@
 #include "histogram.h"
 
-
-void initHistogram(histogram* h, double range, unsigned int size){
-	h->size = size;
-	h->range = range;
-	h->delta_x = (2.0*range)/(double)size;
-	h->histo = calloc(size,sizeof(unsigned int));
-	/*for(int i = 0; i<size; ++i){
-		h->histo[i] = 0;
-	}*/
-//	printf("Hola");
-	h->iterations = 0;
-}
-
-
 void addDensityProfile(histogram* h, state* s){
  double x;
  double center = centerOfMases(s);
@@ -29,12 +15,14 @@ void addDensityProfile(histogram* h, state* s){
   ++h->iterations;
 }
 
+
 void addDistributionFunction(histogram* h, state* s){
 	double x;
 	int index;
 	for(int i = 0; i < N; i++){
 		for(int j = i+1; j < N; j++){
 			x = dist(s->particle_coords[i], s->particle_coords[j]);
+			x+= h->range;
 			index = (int)(x/h->delta_x);
 			if(index > 0 && index < h->size){
 				h->histo[index]++;
@@ -46,8 +34,44 @@ void addDistributionFunction(histogram* h, state* s){
 // normalization: N(N-1)/2
 // double the range 
 
+histogram* histogramInit(double range, unsigned int size){
+	histogram*  h = malloc(sizeof(histogram));
 
-//void addEnergy()
+	h->size = size;
+	h->range = range;
+	h->delta_x = (2.0*range)/(double)size;
+	h->histo = calloc(size,sizeof(unsigned int));
+	h->iterations = 0;
+	return h;
+}
+
+histogram* densityProfileInit(double range, unsigned int size){
+	histogram*  h = malloc(sizeof(histogram));
+
+	h->size = size;
+	h->range = range;
+	h->delta_x = (2.0*range)/(double)size;
+	h->histo = calloc(size,sizeof(unsigned int));
+	h->iterations = 0;
+	h->addIteration = &addDensityProfile;
+	return h;
+}
+
+histogram* distributionInit(double range, unsigned int size){
+	histogram*  h = malloc(sizeof(histogram));
+
+	h->size = size;
+	h->range = range;
+	h->delta_x = (2.0*range)/(double)size;
+	h->histo = calloc(size,sizeof(unsigned int));
+	h->iterations = 0;
+	h->addIteration = &addDistributionFunction;
+	return h;
+}
+
+
+
+
 
 
 void printHistogram(histogram* h, FILE *fp){

@@ -1,3 +1,7 @@
+#ifndef _histogram_h
+#define _histogram_h
+
+
 #include "../state/state.h"
 #include <stdio.h>
 
@@ -8,10 +12,17 @@ typedef struct histogram {
 	double delta_x;
 	double range; //[-range, range]
 	unsigned int iterations;
+	void (*addIteration)(struct histogram* h, state *s);
 	unsigned int* histo;
 } histogram;
 
-void initHistogram(histogram* h, double range, unsigned int size);
-void addDensityProfile(histogram* h, state* s);
-void addDistributionFunction(histogram* h, state* s);
+histogram* histogramInit(double range, unsigned int size);
+histogram* densityProfileInit(double range, unsigned int size);
+histogram* distributionInit(double range, unsigned int size);
+//void addDensityProfile(histogram* h, state* s);
+//void addDistributionFunction(histogram* h, state* s);
 void printHistogram(histogram* h, FILE *fp);
+
+
+
+#endif
