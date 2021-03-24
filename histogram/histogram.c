@@ -65,7 +65,7 @@ histogram* distributionInit(double range, unsigned int size){
 	h->delta_x = (2.0*range)/(double)size;
 	h->histo = calloc(size,sizeof(unsigned int));
 	h->iterations = 0;
-	h->addIteration = &addDistributionFunction;
+	h->addIteration = &addDistributionFunction;//(Pair)
 	return h;
 }
 
@@ -75,8 +75,7 @@ histogram* distributionInit(double range, unsigned int size){
 
 
 void printHistogram(histogram* h, FILE *fp){
-    double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);  //(10/(1000000*0.x)) // (N/(it*d))-> d/(it*N)
-//	printf("N: %f\n", normalization );
+    double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);
 	if(fp == NULL){
     		for(int i = 0; i<h->size; i++){
         		printf("%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histo[i] * normalization ); //size = 2 r =1 -> (-1,0) ->  (-.5, 0.5)i
@@ -88,5 +87,4 @@ void printHistogram(histogram* h, FILE *fp){
     		}
 
 	}
-    //printf("norm: %f\n", normalization);
 }

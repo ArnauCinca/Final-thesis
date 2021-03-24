@@ -44,21 +44,21 @@ int main(int argc, char** argv){
 
 
 	unsigned int total_iterations = 1000000;
-	unsigned int measurements = 10000;
+	unsigned int measurements = 100000;
 	//new class (experiment)-------------------------------
 	montecarlo* mc = montecarloInit(initial_dispersion);
-    histogram* dp = densityProfileInit(histogram_range, histogram_size); //[-10.0, 10.0]
-    histogram* dist = distributionInit(histogram_range, histogram_size); //[-10.0, 10.0]
+	histogram* dp = densityProfileInit(histogram_range, histogram_size); //[-10.0, 10.0]
+	histogram* dist = distributionInit(histogram_range, histogram_size); //[-10.0, 10.0]
 
 
-	//runNSteps(mc,1000000);
 	
 	
 	for (int i = 0; i<measurements; ++i){
 		runNSteps(mc,total_iterations/measurements);
  		dp->addIteration(dp, mc->state);
  		dist->addIteration(dist, mc->state);
-		printf("Energy:%.25lf\n", getEnergy(mc->state));
+//		printf("Energy: %.30le\n", getEnergy(mc->state));
+
 	 	//get metrics(energy, pairs, histo, ...)
 	} 
 	

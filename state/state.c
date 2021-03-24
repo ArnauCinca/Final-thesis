@@ -27,7 +27,11 @@ double u2(double d){
 }
 
 double u2p(double d){
-	return -1/a; //??
+	return -1.0/a;
+}
+
+double u2pp(double d){
+	return 0;
 }
 
 //pn/po =exp(2*inc_u)
@@ -50,15 +54,16 @@ for(int j = 0; j< N; j++){
 
 double drift_force(state* s, int i){
 	double force = 0.0;
+	double r = 0.0;
 	//u1'
 	//1D = 0
 	//u2'
-	for(int j = 0; j< N; j++){
-    	if(j != i){  
-			force += u2p(dist(s->particle_coords[i], s->particle_coords[j])) * (s->particle_coords[i].x - s->particle_coords[j].x);
+	for(int j = 0; j < N; j++){
+    		if(j != i){ 
+		       	r = dist(s->particle_coords[i], s->particle_coords[j]);	
+			force += u2p(r) * (s->particle_coords[i].x - s->particle_coords[j].x)/r;
 		}
 	}
-//	printf("Force: %f\n", force);
 	return force;
 }
 
@@ -115,8 +120,8 @@ double centerOfMases(state* s){
 double getEnergy(state *s){
 	double energy = 0.0;
 	for(int i = 0; i<N; i++){
-		energy += drift_force(s, i);
+		energy += pow(drift_force(s, i),2);
 	}
-	//energy *= 1.0; //(plank/2m)
+	energy *= 1.0/2.0; //hbar =1 , m = 1  //hbar^2/2m
 	return energy;
 }

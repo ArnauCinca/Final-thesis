@@ -1,2 +1,35 @@
 McGuire(x) = ((N-1)/cosh(((N-1)*x)/a)**2)/(2.*a)
+
 McGuire2(x) = 2*exp(-2*abs(x)/a)/a
+
+
+
+
+Experiment 1:
+
+meanFieldParameter(val) = (N-1)/a fix the value
+
+
+N = 2
+a = 1
+val = 1 (fixed)
+
+N = 3
+a = 2
+val = 1 (fixed)
+
+....
+
+
+
+Experiment 2:
+
+GDR distribution density
+g2 -> pair distribution function (dist)
+fourier = cos(k*r)* g2(r) 
+k-> impulso (0.1 ,0.2,...) (grid)
+r-> dist() pair
+
+g2(0
+
+E(N,a) = -(1./6.)*N*(N*N - 1)/(a*a)
