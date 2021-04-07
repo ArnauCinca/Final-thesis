@@ -42,6 +42,9 @@ int main(int argc, char** argv){
 	FILE *fp_dist;	
 	fp_dist = fopen(str, "w");
 
+	sprintf(str, "energy%d-%.2f.dat", N,a);
+	FILE *fp_ene;	
+	fp_ene = fopen(str, "w");
 
 	unsigned int total_iterations = 1000000;
 	unsigned int measurements = 100000;
@@ -57,6 +60,7 @@ int main(int argc, char** argv){
 		runNSteps(mc,total_iterations/measurements);
  		dp->addIteration(dp, mc->state);
  		dist->addIteration(dist, mc->state);
+		fprintf(fp_ene, "%d: %f\n", i, getEnergy(mc->state));
 //		printf("Energy: %.30le\n", getEnergy(mc->state));
 
 	 	//get metrics(energy, pairs, histo, ...)
@@ -71,6 +75,7 @@ int main(int argc, char** argv){
 	//------------------------------------------
 	fclose(fp_dp);
 	fclose(fp_dist);
+	fclose(fp_ene);
 	
 	printf("Done: out%d-%.2f.dat\n", N, a);	
 }
