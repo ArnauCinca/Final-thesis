@@ -22,7 +22,6 @@ void addDistributionFunction(histogram* h, state* s){
 	for(int i = 0; i < N; i++){
 		for(int j = i+1; j < N; j++){
 			x = dist(s->particle_coords[i], s->particle_coords[j]);
-			x+= h->range;
 			index = (int)(x/h->delta_x);
 			if(index > 0 && index < h->size){
 				h->histo[index]++;
@@ -34,9 +33,9 @@ void addDistributionFunction(histogram* h, state* s){
 
 
 void addDensityProfile2D(histogram* h, state* s){
-    double x;
+    double x, y;
 	double center = centerOfMases(s);
-    int index;
+    int index_x,index_y;
     for(int i = 0; i < N; i++){
    		x = s->particle_coords[i].x - center;
    		x += h->range;
@@ -44,13 +43,13 @@ void addDensityProfile2D(histogram* h, state* s){
 
         if(index_x > 0 && index_x < h->size){
         	for(int j = i+1; j < N; j++){
-	        	y = s->particle_coords[i].x - center;
+	        	y = s->particle_coords[j].x - center;
     	    	y += h->range;
         		index_y = (int)(x/h->delta_x);
 
             	if(index_y > 0 && index_y < h->size){
-              		h->histo[index_x][index_y]++;
-              		h->histo[index_y][index_x]++;
+//              		h->histo[index_x][index_y]++;
+  //            		h->histo[index_y][index_x]++;
 					//printf("%f:%f:%f\n", (float)(i)*h->delta_x - h->range,(float)(j) * h->delta_x - h->range, h->histo[i][j]); //TODO:print function
             	}
         	}
@@ -91,7 +90,7 @@ histogram* distributionInit(double range, unsigned int size){
 
 	h->size = size;
 	h->range = range;
-	h->delta_x = (2.0*range)/(double)size;
+	h->delta_x = (range)/(double)size;
 	h->histo = calloc(size,sizeof(unsigned int));
 	h->iterations = 0;
 	h->addIteration = &addDistributionFunction;//(Pair)
@@ -103,7 +102,7 @@ histogram* distributionInit(double range, unsigned int size){
 
 
 
-void printHistogram(histogram* h, FILE *fp){
+void printDensityProfile(histogram* h, FILE *fp){
     double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);
 	if(fp == NULL){
     		for(int i = 0; i<h->size; i++){
@@ -113,6 +112,20 @@ void printHistogram(histogram* h, FILE *fp){
 	else{
     		for(int i = 0; i<h->size; i++){
 			fprintf(fp, "%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histo[i] * normalization);
+    		}
+
+	}
+}
+void printDistribution(histogram* h, FILE *fp){
+    double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);
+	if(fp == NULL){
+    		for(int i = 0; i<h->size; i++){
+        		printf("%f: %f \n", (double)i*h->delta_x + 0.5 * h->delta_x, (double)h->histo[i] * normalization ); //size = 2 r =1 -> (-1,0) ->  (-.5, 0.5)i
+    		}
+	}
+	else{
+    		for(int i = 0; i<h->size; i++){
+			fprintf(fp, "%f: %f \n", (double)i*h->delta_x  + 0.5 * h->delta_x, (double)h->histo[i] * normalization);
     		}
 
 	}

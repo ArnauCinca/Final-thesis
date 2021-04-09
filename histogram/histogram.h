@@ -19,9 +19,11 @@ typedef struct histogram {
 histogram* histogramInit(double range, unsigned int size);
 histogram* densityProfileInit(double range, unsigned int size);
 histogram* distributionInit(double range, unsigned int size);
-//void addDensityProfile(histogram* h, state* s);
-//void addDistributionFunction(histogram* h, state* s);
-void printHistogram(histogram* h, FILE *fp);
+histogram* densityProfile2DInit(double range, unsigned int size);
+
+void printDensityProfile(histogram* h, FILE *fp);
+void printDistribution(histogram* h, FILE *fp);
+void printDensityProfile2D(histogram*h, FILE *fp);
 
 
 

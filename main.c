@@ -61,7 +61,6 @@ int main(int argc, char** argv){
  		dp->addIteration(dp, mc->state);
  		dist->addIteration(dist, mc->state);
 		fprintf(fp_ene, "%d: %f\n", i, getEnergy(mc->state));
-//		printf("Energy: %.30le\n", getEnergy(mc->state));
 
 	 	//get metrics(energy, pairs, histo, ...)
 	} 
@@ -69,9 +68,9 @@ int main(int argc, char** argv){
 	//energy to array, energy write directly
 
 
-	printHistogram(dp, fp_dp);
+	printDensityProfile(dp, fp_dp);
 
-	printHistogram(dist, fp_dist);
+	printDistribution(dist, fp_dist);
 	//------------------------------------------
 	fclose(fp_dp);
 	fclose(fp_dist);
