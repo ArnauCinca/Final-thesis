@@ -10,6 +10,12 @@ main: main.c
 	mkdir -p makes/main
 	gcc -o makes/main/main.o -c main.c -Wall
 	gcc makes/*.o makes/main/main.o -o main -lm -Wall
+error: error.c
+	gcc error.c -o experiment1/error -lm
+
+
 
 clean:
 	rm -r makes
+	rm -f main
+	rm -f error
