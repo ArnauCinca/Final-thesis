@@ -24,8 +24,8 @@ int main(int argc, char** argv){
 	char str[256];
 	sprintf(str, "mf%d_error.dat", mf);
     out = fopen(str, "w");
-	for(int x = 0; x<7; ++x){
-		N = n[x];
+	for(int j = 0; j<7; ++j){
+		N = n[j];
 		a = ((double)N-1.0)/(double)mf;
 		sprintf(str, "mf%d/dp%d-%.2f.dat", mf,N,a);
     	fp_dp = fopen(str, "r");
