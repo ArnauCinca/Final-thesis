@@ -31,6 +31,35 @@ void addDistributionFunction(histogram* h, state* s){
 	}
 	++h->iterations;
 }
+
+
+void addDensityProfile2D(histogram* h, state* s){
+    double x;
+	double center = centerOfMases(s);
+    int index;
+    for(int i = 0; i < N; i++){
+   		x = s->particle_coords[i].x - center;
+   		x += h->range;
+	    index_x = (int)(x/h->delta_x);
+
+        if(index_x > 0 && index_x < h->size){
+        	for(int j = i+1; j < N; j++){
+	        	y = s->particle_coords[i].x - center;
+    	    	y += h->range;
+        		index_y = (int)(x/h->delta_x);
+
+            	if(index_y > 0 && index_y < h->size){
+              		h->histo[index_x][index_y]++;
+              		h->histo[index_y][index_x]++;
+					//printf("%f:%f:%f\n", (float)(i)*h->delta_x - h->range,(float)(j) * h->delta_x - h->range, h->histo[i][j]); //TODO:print function
+            	}
+        	}
+		}
+		//printf("\n\n");   //TODO: print function
+    }
+    ++h->iterations;
+}
+
 // normalization: N(N-1)/2
 // double the range 
 

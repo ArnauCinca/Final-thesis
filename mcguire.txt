@@ -3,7 +3,9 @@ McGuire(x) = ((N-1)/cosh(((N-1)*x)/a)**2)/(2.*a)
 McGuire2(x) = 2*exp(-2*abs(x)/a)/a
 
 
+Experiment:
 
+N & a
 
 Experiment 1:
 
@@ -20,7 +22,13 @@ val = 1 (fixed)
 
 ....
 
+cuvra universal
 
+la misma curvai(en la teoria)
+
+calcular error(plot)
+
+mirar covergencia per el mf parametro, quanto reduce el error
 
 Experiment 2:
 
