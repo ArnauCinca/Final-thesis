@@ -46,12 +46,18 @@ int main(int argc, char** argv){
 	FILE *fp_ene;	
 	fp_ene = fopen(str, "w");
 
+
+	sprintf(str, "dp2D%d-%.2f.dat", N,a);
+	FILE *fp_dp2D;	
+	fp_dp2D = fopen(str, "w");
+
 	unsigned int total_iterations = 1000000;
 	unsigned int measurements = 100000;
 	//new class (experiment)-------------------------------
 	montecarlo* mc = montecarloInit(initial_dispersion);
 	histogram* dp = densityProfileInit(histogram_range, histogram_size); //[-10.0, 10.0]
 	histogram* dist = distributionInit(histogram_range, histogram_size); //[-10.0, 10.0]
+	histogram* heatmap = densityProfile2DInit(histogram_range, histogram_size); //[-10.0, 10.0]
 
 
 	
@@ -61,20 +67,21 @@ int main(int argc, char** argv){
  		dp->addIteration(dp, mc->state);
  		dist->addIteration(dist, mc->state);
 		fprintf(fp_ene, "%d: %f\n", i, getEnergy(mc->state));
-
+		heatmap->addIteration(heatmap,mc->state);
 	 	//get metrics(energy, pairs, histo, ...)
 	} 
-	
 	//energy to array, energy write directly
 
 
 	printDensityProfile(dp, fp_dp);
 
 	printDistribution(dist, fp_dist);
+	printDensityProfile2D(heatmap, fp_dp2D);
 	//------------------------------------------
 	fclose(fp_dp);
 	fclose(fp_dist);
 	fclose(fp_ene);
+	fclose(fp_dp2D);
 	
 	printf("Done: out%d-%.2f.dat\n", N, a);	
 }
