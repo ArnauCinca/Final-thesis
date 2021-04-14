@@ -38,7 +38,6 @@ void addDensityProfile2D(histogram* h, state* s){
     int index_x,index_y;
     for(int i = 0; i < N; i++){
    		x = s->particle_coords[i].x - center;
-
    		x += h->range;
 	    index_x = (int)(x/h->delta_x);
 
@@ -51,7 +50,6 @@ void addDensityProfile2D(histogram* h, state* s){
             	if(index_y >= 0 && index_y < h->size){
               		h->histo[index_x * h->size + index_y]++;
               		h->histo[index_y * h->size + index_x]++;
-					//printf("%f:%f:%f\n", (float)(i)*h->delta_x - h->range,(float)(j) * h->delta_x - h->range, h->histo[i][j]); //TODO:print function
             	}
         	}
 		}

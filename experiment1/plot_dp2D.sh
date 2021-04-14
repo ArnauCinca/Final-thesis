@@ -2,8 +2,8 @@
 mf=$1
 N=$2
 
-a=$(echo "scale=2;($N-1) / $mf" | bc -l | sed 's/^\./0./')
-gnuplot -e "set terminal png size 800,800; set output 'dp2D$mf.png'; 
+a=$(echo "($N-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
+gnuplot -e "set terminal png size 800,800; set output 'dp2D$mf-$N.png'; 
 			set view map;
-			splot 'mf$mf/dp2D$N-$a.dat' with pm3d"
-firefox dp2D$mf.png
+			splot 'mf$mf/dp2D$N-$a.dat' with pm3d title ''"
+firefox dp2D$mf-$N.png
