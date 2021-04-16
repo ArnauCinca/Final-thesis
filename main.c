@@ -50,6 +50,10 @@ int main(int argc, char** argv){
 	sprintf(str, "dp2D%d-%.2f.dat", N,a);
 	FILE *fp_dp2D;	
 	fp_dp2D = fopen(str, "w");
+	
+	sprintf(str, "dpDiag%d-%.2f.dat", N,a);
+	FILE *fp_dpDiag;	
+	fp_dpDiag = fopen(str, "w");
 
 	unsigned int total_iterations = 1000000;
 	unsigned int measurements = 100000;
@@ -77,11 +81,13 @@ int main(int argc, char** argv){
 
 	printDistribution(dist, fp_dist);
 	printDensityProfile2D(heatmap, fp_dp2D);
+	printDensityProfile2DDiag(heatmap, fp_dpDiag);
 	//------------------------------------------
 	fclose(fp_dp);
 	fclose(fp_dist);
 	fclose(fp_ene);
 	fclose(fp_dp2D);
+	fclose(fp_dpDiag);
 	
 	printf("Done: out%d-%.2f.dat\n", N, a);	
 }

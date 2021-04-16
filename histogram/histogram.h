@@ -24,6 +24,7 @@ histogram* densityProfile2DInit(double range, unsigned int size);
 void printDensityProfile(histogram* h, FILE *fp);
 void printDistribution(histogram* h, FILE *fp);
 void printDensityProfile2D(histogram*h, FILE *fp);
+void printDensityProfile2DDiag(histogram*h, FILE *fp);
 
 
 

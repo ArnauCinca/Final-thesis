@@ -33,11 +33,16 @@ int main(int argc, char** argv){
 		double x, value;
 		double error_add = 0;
 		int i = 0;
-		while(fscanf(fp_dp, "%lf: %lf\n", &x, &value) > 0){  	//get index
-			error_add +=  fabs(value - mcGuire(x));	
+		double delta_x = -1.0;
+		double min;
+		while(fscanf(fp_dp, "%lf: %lf\n", &x, &value) > 0) {  	//get index
+			error_add +=  fabs(value - mcGuire(x));
+			if(i == 0) min = x;
 			i++;
 		}
-		fprintf(out, "%d: %lf\n",N, error_add/i);
+		printf("%d %lf %lf", i, min, x);
+		delta_x = (x - min)/(i);
+		fprintf(out, "%d: %lf\n",N, error_add*delta_x);
 
 		fclose(fp_dp);
 	}

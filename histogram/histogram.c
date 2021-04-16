@@ -155,3 +155,20 @@ void printDensityProfile2D(histogram* h, FILE *fp){
     	}
 	}
 }
+
+
+
+void printDensityProfile2DDiag(histogram* h, FILE *fp){
+    double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);
+    if(fp == NULL){
+        for(int i = 0; i < h->size; i++){
+	        printf("%f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x,(double)h->histo[i*h->size + i] * normalization ); //size = 2 r =1 -> (-1,0) ->  (-.5, 0.5)i
+        }
+    }
+    else{
+        for(int i = 0; i < h->size; i++){
+                fprintf(fp,"%f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histo[i*h->size + i] * normalization ); //size = 2 r =1 -> (-1,0) ->  (-.5, 0.5)i
+        }
+    }
+}
+
