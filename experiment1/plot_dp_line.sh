@@ -13,9 +13,9 @@ a6=$(echo "($N6-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
 a10=$(echo "($N10-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
 a20=$(echo "($N20-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
 a100=$(echo "($N100-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
-gnuplot -e "set terminal png size 1024,1024; set output 'dp$mf.png'; 
+gnuplot -e "set terminal png size 1536,1024; set output 'dp$mf.png'; 
 			McGuire(x) = ((N-1)/cosh(((N-1)*x)/a)**2)/(2.*a);
-			McGuire2(x) = exp(-2*abs(x)/(a/2.0))/(a/2.0);
+			McGuire2(x) = exp(-2.0*abs(x)/(a/2.0))/(a/2.0);
 			N=$N2; a=$a2;
 			plot 'mf$mf/dp$N2-$a2.dat' w linespoints pt 7 ps 0 title 'N = $N2, a = $a2', 
 				 'mf$mf/dp$N4-$a4.dat' w linespoints pt 7 ps 0 title 'N = $N4, a = $a4',
