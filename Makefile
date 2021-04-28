@@ -12,6 +12,8 @@ main: main.c
 	gcc makes/*.o makes/main/main.o -o main -lm -Wall
 error: error.c
 	gcc error.c -o experiment1/error -lm
+castin: castin.c
+	gcc castin.c -o experiment1/castin -lm
 
 
 
