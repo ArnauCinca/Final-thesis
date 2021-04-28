@@ -18,13 +18,13 @@ gnuplot -e "set terminal png size 1536,1024; set output 'dp$mf.png';
 			McGuire(x) = ((N-1)/cosh(((N-1)*x)/a)**2)/(2.*a);
 			McGuire2(x) = exp(-2.0*abs(x)/(a/2.0))/(a/2.0);
 			N=$N2; a=$a2;
-			plot 'dpCastin$N2-$a2.dat' w linespoints pt 7 ps 0 title 'Castin: N = $N2, a = $a2', 
-				 McGuire2(x) linecolor 'grey30' lw 2 lt '.' title 'Dimer',
+			plot 'dpCastin$N2-$a2.dat' w points pt 1 linecolor 'black' title 'Castin: N = $N2, a = $a2', 
+				 McGuire2(x) w points pt 2 linecolor 'grey30' title 'Dimer',
 				 McGuire(x) linecolor 'black' lw 2 lt '-' title 'Gross-Pitaevskii',
-				 'mf$mf/dp$N2-$a2.dat' w linespoints pt 7 ps 0 title 'N = $N2, a = $a2', 
-				 'mf$mf/dp$N4-$a4.dat' w linespoints pt 7 ps 0 title 'N = $N4, a = $a4',
-				 'mf$mf/dp$N6-$a6.dat' w linespoints pt 7 ps 0 title 'N = $N6, a = $a6',
-				 'mf$mf/dp$N10-$a10.dat' w linespoints pt 7 ps 0 title 'N = $N10, a = $a10',
-				 'mf$mf/dp$N20-$a20.dat' w linespoints pt 7 ps 0 title 'N = $N20, a = $a20',
-				 'mf$mf/dp$N100-$a100.dat' w linespoints pt 7 ps 0 title 'N = $N100, a = $a100'",
+				 'mf$mf/dp$N2-$a2.dat' w lines title 'N = $N2, a = $a2', 
+				 'mf$mf/dp$N4-$a4.dat' w lines title 'N = $N4, a = $a4',
+				 'mf$mf/dp$N6-$a6.dat' w lines title 'N = $N6, a = $a6',
+				 'mf$mf/dp$N10-$a10.dat' w lines title 'N = $N10, a = $a10',
+				 'mf$mf/dp$N20-$a20.dat' w lines title 'N = $N20, a = $a20',
+				 'mf$mf/dp$N100-$a100.dat' w lines title 'N = $N100, a = $a100'",
 firefox dp$mf.png
