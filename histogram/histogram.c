@@ -1,6 +1,6 @@
 #include "histogram.h"
 
-void addDensityProfile(histogram* h, state* s){
+void addDensityProfileX(histogram* h, state* s){
  double x;
  double center = centerOfMases(s);
  int index;
@@ -14,7 +14,38 @@ void addDensityProfile(histogram* h, state* s){
   }
   ++h->iterations;
 }
+#if TRIDIM == 1
 
+void addDensityProfileY(histogram* h, state* s){
+ double y;
+ double center = centerOfMases(s);
+ int index;
+ for(int i = 0; i < N; i++){
+   y = s->particle_coords[i].y - center;
+   y += h->range;
+   index = (int)(y/h->delta_x);  //20/
+   if(index >= 0  && index < h->size){
+     h->histo[index]++; //TODO: index   (-1,1) -> 0
+    }
+  }
+  ++h->iterations;
+}
+
+void addDensityProfileZ(histogram* h, state* s){
+ double z;
+ double center = centerOfMases(s);
+ int index;
+ for(int i = 0; i < N; i++){
+   z = s->particle_coords[i].z - center;
+   z += h->range;
+   index = (int)(z/h->delta_x);  //20/
+   if(index >= 0  && index < h->size){
+     h->histo[index]++; //TODO: index   (-1,1) -> 0
+    }
+  }
+  ++h->iterations;
+}
+#endif
 
 void addDistributionFunction(histogram* h, state* s){
 	double x;
@@ -71,7 +102,7 @@ histogram* histogramInit(double range, unsigned int size){
 	return h;
 }
 
-histogram* densityProfileInit(double range, unsigned int size){
+histogram* densityProfileXInit(double range, unsigned int size){
 	histogram*  h = malloc(sizeof(histogram));
 
 	h->size = size;
@@ -79,9 +110,36 @@ histogram* densityProfileInit(double range, unsigned int size){
 	h->delta_x = (2.0*range)/(double)size;
 	h->histo = calloc(size,sizeof(unsigned int));
 	h->iterations = 0;
-	h->addIteration = &addDensityProfile;
+	h->addIteration = &addDensityProfileX;
 	return h;
 }
+#if TRIDIM == 1
+histogram* densityProfileYInit(double range, unsigned int size){
+        histogram*  h = malloc(sizeof(histogram));
+
+        h->size = size;
+        h->range = range;
+        h->delta_x = (2.0*range)/(double)size;
+        h->histo = calloc(size,sizeof(unsigned int));
+        h->iterations = 0;
+        h->addIteration = &addDensityProfileY;
+        return h;
+}
+
+
+histogram* densityProfileZInit(double range, unsigned int size){
+        histogram*  h = malloc(sizeof(histogram));
+
+        h->size = size;
+        h->range = range;
+        h->delta_x = (2.0*range)/(double)size;
+        h->histo = calloc(size,sizeof(unsigned int));
+        h->iterations = 0;
+        h->addIteration = &addDensityProfileZ;
+        return h;
+}
+#endif
+
 
 histogram* distributionInit(double range, unsigned int size){
 	histogram*  h = malloc(sizeof(histogram));
@@ -185,3 +243,4 @@ void printDensityProfile2DDiag2(histogram* h, FILE *fp){
         }
     }
 }
+

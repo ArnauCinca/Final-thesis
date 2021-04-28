@@ -17,7 +17,11 @@ typedef struct histogram {
 } histogram;
 
 histogram* histogramInit(double range, unsigned int size);
-histogram* densityProfileInit(double range, unsigned int size);
+histogram* densityProfileXInit(double range, unsigned int size);
+#if TRIDIM == 1
+histogram* densityProfileYInit(double range, unsigned int size);
+histogram* densityProfileZInit(double range, unsigned int size);
+#endif
 histogram* distributionInit(double range, unsigned int size);
 histogram* densityProfile2DInit(double range, unsigned int size);
 
