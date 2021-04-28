@@ -3,6 +3,15 @@
 
 
 
+coords orig(){
+	coords c;
+	c.x = 0.0;
+#if TRIDIM == 1
+	c.y = 0.0;
+	c.z = 0.0;
+#endif
+	return c;
+}
 
 double dist(coords i, coords j){
 	double dx = i.x-j.x;

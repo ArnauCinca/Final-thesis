@@ -10,6 +10,7 @@ typedef struct coords{
 #endif
 } coords;
 
+coords orig();
 double dist(coords i, coords j);
 void coordsRandomInit(coords* c, double initial_dispersion);
 void randomMove(coords* c);

@@ -14,6 +14,23 @@ double u1 (coords c){
 	return 0.0;
 #endif
 }
+double u1px (coords c){
+#if TRIDIM == 1
+	return c.x; //alpha?
+#else
+	return 0.0;
+#endif
+}
+double u1py (coords c){
+#if TRIDIM == 1
+	return c.y; //alpha?
+#else
+	return 0.0;
+#endif
+}
+double u1pz (coords c){
+	return 0.0;
+}
 //1D
 //u2 = -r/a
 //3D
@@ -61,7 +78,7 @@ double drift_force(state* s, int i){
 	for(int j = 0; j < N; j++){
     		if(j != i){ 
 		       	r = dist(s->particle_coords[i], s->particle_coords[j]);	
-			force += u2p(r) * (s->particle_coords[i].x - s->particle_coords[j].x)/r;
+			force += u2p(r) * (dist(s->particle_coords[i], orig()) - dist(s->particle_coords[j], orig()))/r;
 		}
 	}
 	return force;
