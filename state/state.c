@@ -89,8 +89,13 @@ double drift_force(state* s, int i, int axis){
 	//u2'
 	for(int j = 0; j < N; j++){
     		if(j != i){ 
-		       	r = dist(s->particle_coords[i], s->particle_coords[j]);	
+		       	r = dist(s->particle_coords[i], s->particle_coords[j]);
+#if TRIDIM == 1
 			force += u2p(r) * (dist(s->particle_coords[i], orig()) - dist(s->particle_coords[j], orig()))/r;
+#else
+			force += u2p(r) * (s->particle_coords[i].x  - s->particle_coords[j].x)/r;//(dist(s->particle_coords[i], orig()) - dist(s->particle_coords[j], orig()))/r;
+#endif
+
 		}
 	}
 	return force;
