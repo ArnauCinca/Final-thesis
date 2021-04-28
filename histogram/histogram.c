@@ -1,8 +1,7 @@
 #include "histogram.h"
 
-void addDensityProfileX(histogram* h, state* s){
+void addDensityProfileX(histogram* h, state* s, double center){
  double x;
- double center = centerOfMases(s);
  int index;
  for(int i = 0; i < N; i++){
    x = s->particle_coords[i].x - center;
@@ -16,9 +15,8 @@ void addDensityProfileX(histogram* h, state* s){
 }
 #if TRIDIM == 1
 
-void addDensityProfileY(histogram* h, state* s){
+void addDensityProfileY(histogram* h, state* s, double center){
  double y;
- double center = centerOfMases(s);
  int index;
  for(int i = 0; i < N; i++){
    y = s->particle_coords[i].y - center;
@@ -31,9 +29,8 @@ void addDensityProfileY(histogram* h, state* s){
   ++h->iterations;
 }
 
-void addDensityProfileZ(histogram* h, state* s){
+void addDensityProfileZ(histogram* h, state* s, double center){
  double z;
- double center = centerOfMases(s);
  int index;
  for(int i = 0; i < N; i++){
    z = s->particle_coords[i].z - center;
@@ -47,7 +44,7 @@ void addDensityProfileZ(histogram* h, state* s){
 }
 #endif
 
-void addDistributionFunction(histogram* h, state* s){
+void addDistributionFunction(histogram* h, state* s, double center){
 	double x;
 	int index;
 	for(int i = 0; i < N; i++){
@@ -63,9 +60,8 @@ void addDistributionFunction(histogram* h, state* s){
 }
 
 
-void addDensityProfile2D(histogram* h, state* s){
+void addDensityProfile2D(histogram* h, state* s, double center){
     double x, y;
-	double center = centerOfMases(s);
     int index_x,index_y;
     for(int i = 0; i < N; i++){
    		x = s->particle_coords[i].x - center;

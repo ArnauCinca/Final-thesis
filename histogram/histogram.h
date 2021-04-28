@@ -12,7 +12,7 @@ typedef struct histogram {
 	double delta_x;
 	double range; //[-range, range]
 	unsigned int iterations;
-	void (*addIteration)(struct histogram* h, state *s);
+	void (*addIteration)(struct histogram* h, state *s, double center);
 	unsigned int* histo;
 } histogram;
 

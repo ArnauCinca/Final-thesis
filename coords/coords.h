@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "../misc/misc.h"
 
-#define TRIDIM 0  //0 1D; 1 3D
+#define TRIDIM 1  //0 1D; 1 3D
 typedef struct coords{
     double x;
 #if TRIDIM == 1
