@@ -69,11 +69,23 @@ for(int j = 0; j< N; j++){
 }
 
 
-double drift_force(state* s, int i){
+double drift_force(state* s, int i, int axis){
 	double force = 0.0;
 	double r = 0.0;
 	//u1'
-	//1D = 0
+	switch(axis){
+		case 0: //x
+			u1px(s->particle_coords[i]);
+			break;
+		case 1: //y
+			u1py(s->particle_coords[i]);
+			break;
+		case 2: //z
+			u1pz(s->particle_coords[i]);
+			break;
+	
+	}
+	
 	//u2'
 	for(int j = 0; j < N; j++){
     		if(j != i){ 
@@ -137,7 +149,11 @@ double centerOfMases(state* s){
 double getEnergy(state *s){
 	double energy = 0.0;
 	for(int i = 0; i<N; i++){
-		energy += pow(drift_force(s, i),2);
+		energy += pow(drift_force(s, i, 0), 2);
+#if TRIDIM == 1
+		energy += pow(drift_force(s, i, 1), 2);
+		energy += pow(drift_force(s, i, 2), 2);
+#endif
 	}
 	energy *= 1.0/2.0; //hbar =1 , m = 1  //hbar^2/2m
 	return energy;
