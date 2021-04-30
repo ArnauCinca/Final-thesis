@@ -21,7 +21,7 @@ double castin(double x){
 	for(int k = 0; k <= N-2; ++k)
 		s += s1[k] * exp(-(k+1)*fabs(x)/E);
 
-	return p*s/2;
+	return p*s/(double)N;
 }
 
 int main(int argc, char** argv){
