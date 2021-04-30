@@ -5,7 +5,6 @@
 
 
 #include "../coords/coords.h"
-#include "../main.h"
 
 extern double a;
 extern unsigned int N;
@@ -18,6 +17,7 @@ typedef struct state{
 } state;
 
 
+double acceptanceRatio(state* s);
 void initState(state* s, double initial_dispersion);
 void nextState(state* s);
 double centerOfMases(state* s);

@@ -9,7 +9,7 @@
 //u1 = -alpha*(x^2 +y^2)
 double u1 (coords c){
 #if TRIDIM == 1
-	return -0.5*(c.x*c.x + c.y*c.y); //alpha?
+	return -0.5*(c.x*c.x + c.y*c.y);
 #else
 	return 0.0;
 #endif
@@ -57,13 +57,15 @@ double u2pp(double d){
 double inc_u(state* s, coords particle_old, int i){
 //(u1-u1) + sum(u2-u2)
 
-double res = u1(s->particle_coords[i]) - u1(particle_old);
-double sum = 0;
-for(int j = 0; j< N; j++){
-    if(j != i){  
-       		sum += u2(dist(s->particle_coords[i] , s->particle_coords[j])) -
-              	       u2(dist(      particle_old    , s->particle_coords[j]));
-    	}
+	double res = u1(s->particle_coords[i]) - u1(particle_old);
+	double sum = 0;
+
+
+	for(int j = 0; j< N; j++){
+    		if(j != i){  
+       			sum += u2(dist(s->particle_coords[i] , s->particle_coords[j])) -
+              	       	u2(dist(      particle_old    , s->particle_coords[j]));
+    		}	
 	}
 	return res + sum;
 }
@@ -75,13 +77,13 @@ double drift_force(state* s, int i, int axis){
 	//u1'
 	switch(axis){
 		case 0: //x
-			u1px(s->particle_coords[i]);
+			force = u1px(s->particle_coords[i]);
 			break;
 		case 1: //y
-			u1py(s->particle_coords[i]);
+			force = u1py(s->particle_coords[i]);
 			break;
 		case 2: //z
-			u1pz(s->particle_coords[i]);
+			force = u1pz(s->particle_coords[i]);
 			break;
 	
 	}
@@ -122,29 +124,30 @@ void nextState(state* s){
 		c = s->particle_coords[i];
 		randomMove(&s->particle_coords[i]);
 		//probability
-		//if mas grande conserva el cambio
 		double u = inc_u(s,c,i);
-	//	if (u > 0) s->particle_coords[i] = c;
 		if (u <= 0){
 			int x = (int)(exp(2*u) + randomInRange(0,1));
 			if(x == 0) {
 				s->particle_coords[i] = c;
 				s->rejected++;
 			}
-		//	if(x != 0) s->particle_coords[i] = c;
 		}
 	}
 }
 
-//each x iterations do other metrics
-//pairs
-//void energy(....)
+double acceptanceRatio(state* s){
+	return 1.0 - (double)s->rejected/(double)s->tryed;
+}
 
 double centerOfMases(state* s){
 	double sum = 0;
 	
 	for(int i =0; i<N; ++i){
+#if TRIDIM == 1
+		sum += s->particle_coords[i].z;
+#else
 		sum += s->particle_coords[i].x;
+#endif
 	}
 	return sum/(double)N;
 }

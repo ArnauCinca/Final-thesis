@@ -26,7 +26,11 @@ int main(int argc, char** argv){
 
 
 	double initial_dispersion = a/(2.0*N);  //particle spawn (-initial_dispersion,initial dispersion)
+#if TRIDIM == 1
+	double histogram_range = 3.0;//( a/((double)(N-1)));
+#else
 	double histogram_range =  (a/((double)(N-1)))*3.0; //[-r,r]
+#endif
 	unsigned int histogram_size = 100;
 
 
@@ -67,7 +71,7 @@ int main(int argc, char** argv){
 	fp_dpDiag2 = fopen(str, "w");
 
 	unsigned int total_iterations = 1000000;
-	unsigned int measurements = 100000;
+	unsigned int measurements = 100000; 
 	//new class (experiment)-------------------------------
 	montecarlo* mc = montecarloInit(initial_dispersion);
 	histogram* dpX = densityProfileXInit(histogram_range, histogram_size); //[-10.0, 10.0]
@@ -86,12 +90,12 @@ int main(int argc, char** argv){
 #if TRIDIM == 1
 		center = 0.0;
 #else
-		center = centerOfMases(s);
+		center = centerOfMases(mc->state);
 #endif
  		dpX->addIteration(dpX, mc->state, center);
 #if TRIDIM == 1
                 dpY->addIteration(dpY, mc->state, center);
-                dpZ->addIteration(dpZ, mc->state, center);
+                dpZ->addIteration(dpZ, mc->state, centerOfMases(mc->state));
 #endif
  		dist->addIteration(dist, mc->state, center);
 		fprintf(fp_ene, "%d: %f\n", i, getEnergy(mc->state));
@@ -100,7 +104,7 @@ int main(int argc, char** argv){
 	} 
 	//energy to array, energy write directly
 
-
+	printf("AR N=%d a=%lf ar=%lf\n", N,a, acceptanceRatio(mc->state));
 	printDensityProfile(dpX, fp_dpX);
 #if TRIDIM == 1
 	printDensityProfile(dpY, fp_dpY);

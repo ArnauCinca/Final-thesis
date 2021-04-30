@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "../misc/misc.h"
+#include "../main.h"
 
 #define TRIDIM 1  //0 1D; 1 3D
 typedef struct coords{
