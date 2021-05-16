@@ -41,3 +41,9 @@ r-> dist() pair
 g2(0
 
 E(N,a) = -(1./6.)*N*(N*N - 1)/(a*a)
+
+
+
+
+ plot "ene2.dat" w lines, "BuschFig1.dat" w lines
+

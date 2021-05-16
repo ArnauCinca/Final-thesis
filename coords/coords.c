@@ -39,7 +39,7 @@ void coordsRandomInit(coords* c, double initial_dispersion){
 void randomMove(coords* c){
 	double r = a/(double)N;
 #if TRIDIM == 1
-	r *= 1.0/(pow(log(N),2)*500.0);
+	if(N != 2) r *= 1.0/(pow(log(N),2)*500.0);
 #endif
 	c->x += randomInRange(-r,r);
 #if TRIDIM == 1

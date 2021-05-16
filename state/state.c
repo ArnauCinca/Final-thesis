@@ -9,27 +9,31 @@
 //u1 = -alpha*(x^2 +y^2)
 double u1 (coords c){
 #if TRIDIM == 1
-	return -0.5*(c.x*c.x + c.y*c.y);
+	return -0.5*(c.x*c.x + c.y*c.y /* + c.z*c.z*/);
 #else
 	return 0.0;
 #endif
 }
 double u1px (coords c){
 #if TRIDIM == 1
-	return c.x; //alpha?
+	return c.x; 
 #else
 	return 0.0;
 #endif
 }
 double u1py (coords c){
 #if TRIDIM == 1
-	return c.y; //alpha?
+	return c.y;
 #else
 	return 0.0;
 #endif
 }
 double u1pz (coords c){
+#if TRIDIM == 1
+	return 0.0;//c.z;
+#else
 	return 0.0;
+#endif
 }
 //1D
 //u2 = -r/a
@@ -37,19 +41,19 @@ double u1pz (coords c){
 //u2 = -r/a - ln r
 double u2(double d){
 #if TRIDIM == 1
-	return -d/a - log(d);
+	return  -d/a - log(d);// log(fabs(1.0 - a/d));
 #else
 	return -d/a;
 #endif
 }
 
 double u2p(double d){
-	return -1.0/a;
+	return -1.0/a;//a/(d*(d-a));-1.0/a;
 }
 
-double u2pp(double d){
-	return 0;
-}
+/*double u2pp(double d){
+	return -(a*(2*d-a))/(d*d*(d-a)*(d-a));//0;
+}*/
 
 //pn/po =exp(2*inc_u)
 //if inc_u > 0 then pn/po>1 -> pn > po
@@ -107,7 +111,7 @@ double drift_force(state* s, int i, int axis){
 
 void initState(state* s, double initial_dispersion){
 	s->rejected = 0;
-	s->tryed = 0;
+	s->tried = 0;
 	s->particle_coords = malloc(N*sizeof(coords));
 	for(int i = 0; i < N; i++){
 		coordsRandomInit(&(s->particle_coords[i]), initial_dispersion);
@@ -120,7 +124,7 @@ void nextState(state* s){
 
 	coords c;
 	for(int i = 0; i < N; i++){
-		s->tryed++;
+		s->tried++;
 		c = s->particle_coords[i];
 		randomMove(&s->particle_coords[i]);
 		//probability
@@ -136,7 +140,7 @@ void nextState(state* s){
 }
 
 double acceptanceRatio(state* s){
-	return 1.0 - (double)s->rejected/(double)s->tryed;
+	return 1.0 - (double)s->rejected/(double)s->tried;
 }
 
 double centerOfMases(state* s){

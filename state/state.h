@@ -11,8 +11,7 @@ extern unsigned int N;
 
 typedef struct state{
 	unsigned int rejected;
-	unsigned int tryed;
-	double local_energy;
+	unsigned int tried;
 	coords* particle_coords;
 } state;
 

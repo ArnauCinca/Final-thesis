@@ -12,11 +12,7 @@ montecarlo* montecarloInit(double initial_dispersion){
 }
 
 void runOneStep(montecarlo* mc){
-	//step
 	nextState(mc->state);
-	//sum to hist
-	
-//	addDensityProfile(mc->histo, mc->state);
 }
 
 void runNSteps(montecarlo* mc, unsigned int N){
