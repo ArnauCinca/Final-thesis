@@ -1,6 +1,6 @@
 #include "measurements.h"
 #include <math.h>
-unsigned long fact(unsigned long n){
+double fact(double n){
         if(n == 0) return 1;
         else return n*fact(n-1);
 
@@ -89,9 +89,7 @@ measurements* measurementsInit(double range, unsigned int size){
 
         s1 = malloc((N-1)*sizeof(double));
         for(int k = 0; k <= N-2; ++k)
-                s1[k] = (pow(-1,k) * (k+1))/(double)(fact(N-2-k) * fact(N+k));
-
-
+                s1[k] = (pow(-1,k) * (k+1))/(fact(N-2-k) * fact(N+k));
 #endif
 	h->iterations = 0;
 	return h;
@@ -172,6 +170,7 @@ void printDistribution(histogram* h, FILE *fp){
 */
 void printDensityProfile2D(measurements* h, FILE *fp){
     double normalization = 1.0/  ((double)N  * (double)h->iterations * h->delta_x);
+    if(N < 85){
 	if(fp == NULL){
    		for(int i = 0; i < h->size; i++){
    			for(int j = 0; j < h->size; j++){
@@ -188,6 +187,31 @@ void printDensityProfile2D(measurements* h, FILE *fp){
 			fprintf(fp,"\n");
     		}
 	}
+    }
+    else{
+    	  if(fp == NULL){
+                for(int i = 0; i < h->size; i++){
+                        for(int j = 0; j < h->size; j++){
+                                printf("%f %f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)j*h->delta_x - h->range + 0.5 * h->delta_x ,((double)h->heatmap[i][j]*normalization/((double)N-1.0) - h->histoX[i]*normalization * h->histoX[j]*normalization) );
+                        }
+                        fprintf(fp,"\n");
+                }
+        }
+        else{
+                for(int i = 0; i < h->size; i++){
+                        for(int j = 0; j < h->size; j++){
+                                fprintf(fp,"%f %f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)j*h->delta_x - h->range + 0.5 * h->delta_x ,((double)h->heatmap[i][j]*normalization/((double)N-1.0) - h->histoX[i]*normalization * h->histoX[j]*normalization) );
+                        }
+                        fprintf(fp,"\n");
+                }
+        }
+
+    
+    
+    
+    
+    
+    }
 }
 
 

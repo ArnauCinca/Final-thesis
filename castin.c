@@ -8,7 +8,7 @@ double E;
 double p;
 double* s1;
 
-unsigned long fact(unsigned long n){
+double fact(double n){
 	if(n == 0) return 1;
 	else return n*fact(n-1);
 
@@ -43,7 +43,7 @@ int main(int argc, char** argv){
 
 	s1 = malloc((N-1)*sizeof(double));
 	for(int k = 0; k <= N-2; ++k)
-		s1[k] = (pow(-1,k) * (k+1))/(double)(fact(N-2-k) * fact(N+k));
+		s1[k] = (pow(-1,k) * (k+1))/(fact(N-2-k) * fact(N+k));
 
 	double range =  (a/((double)(N-1)))*3.0; //[-r,r]
 	unsigned int size = 100;

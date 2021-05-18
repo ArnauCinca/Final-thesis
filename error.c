@@ -27,7 +27,7 @@ int main(int argc, char** argv){
 	for(int j = 0; j<7; ++j){
 		N = n[j];
 		a = ((double)N-1.0)/(double)mf;
-		sprintf(str, "mf%d/dp%d-%.2f.dat", mf,N,a);
+		sprintf(str, "mf%d/dpX%d-%.2f.dat", mf,N,a);
     	fp_dp = fopen(str, "r");
 
 		double x, value;
