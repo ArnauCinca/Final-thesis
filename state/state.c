@@ -9,9 +9,17 @@
 //u1 = -alpha*(x^2 +y^2)
 double u1 (coords c){
 #if TRIDIM == 1
-	return -0.5*(c.x*c.x + c.y*c.y /* + c.z*c.z*/);
+#if HTRAP == 0
+	return -0.5*(c.x*c.x + c.y*c.y);
 #else
+	return -0.5*(c.x*c.x + c.y*c.y  + c.z*c.z);
+#endif
+#else
+#if HTRAP == 0
 	return 0.0;
+#else
+	return -0.5*(c.x*c.x);
+#endif
 #endif
 }
 double u1px (coords c){
@@ -30,9 +38,17 @@ double u1py (coords c){
 }
 double u1pz (coords c){
 #if TRIDIM == 1
+#if HTRAP == 0
 	return 0.0;//c.z;
 #else
-	return 0.0;
+	return c.z;
+#endif
+#else
+#if HTRAP == 0
+	return 0.0;//c.z;
+#else
+	return c.x;
+#endif
 #endif
 }
 //1D
