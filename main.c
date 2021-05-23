@@ -74,18 +74,15 @@ int main(int argc, char** argv){
 
 	unsigned int total_iterations = 1000000;
 	unsigned int measurements = 100000; 
-	//new class (experiment)-------------------------------
+
 	montecarlo* mc = montecarloInit(initial_dispersion);
 
 	h  = measurementsInit(histogram_range, histogram_size); //[-10.0, 10.0]
-	//histogram* dist = distributionInit(histogram_range, histogram_size); //[-10.0, 10.0]
 
 	double energy = 0.0;
 	for (int i = 0; i<measurements; ++i){
 		runNSteps(mc,total_iterations/measurements);
  		addIteration(h, mc->state);
- 		//dist->addIteration(dist, mc->state, center);
-		//fprintf(fp_ene, "%d: %f\n", i, getEnergy(mc->state));
 		energy +=  getEnergy(mc->state);
 	} 
 	printf("Energy: %lf \n", energy/measurements);
@@ -95,12 +92,10 @@ int main(int argc, char** argv){
 	printDensityProfileY(h, fp_dpY);
         printDensityProfileZ(h, fp_dpZ);
 #else
-	//printDistribution(dist, fp_dist);
 	printDensityProfile2D(h, fp_dp2D);
 	printDensityProfile2DDiag1(h, fp_dpDiag1);
 	printDensityProfile2DDiag2(h, fp_dpDiag2);
 #endif
-	//------------------------------------------
 	fclose(fp_dpX);
 #if TRIDIM == 1
 	fclose(fp_dpY);

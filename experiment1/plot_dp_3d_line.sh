@@ -7,9 +7,9 @@ N10=10
 N20=20
 N100=100
 
-a2=$(echo "($N2-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
-a4=$(echo "($N4-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
-a6=$(echo "($N6-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
+a2=$(echo "($N2-1) / $mf" | bc -l | awk '{printf("-%.2f\n", $1)}')
+a4=$(echo "($N4-1) / $mf" | bc -l | awk '{printf("-%.2f\n", $1)}')
+a6=$(echo "($N6-1) / $mf" | bc -l | awk '{printf("-%.2f\n", $1)}')
 a10=$(echo "($N10-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
 a20=$(echo "($N20-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
 a100=$(echo "($N100-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')

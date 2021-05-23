@@ -14,6 +14,7 @@ a10=$(echo "($N10-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
 a20=$(echo "($N20-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
 a100=$(echo "($N100-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
 gnuplot -e "set terminal png size 1536,1024; set output 'dp$mf.png';
+			set colors classic;
 			set title 'Density profiles with mf=$mf';
 			McGuire(x) = ((N-1)/cosh(((N-1)*x)/a)**2)/(2.*a);
 			McGuire2(x) = exp(-2.0*abs(x)/(a/2.0))/(a/2.0);

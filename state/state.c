@@ -3,10 +3,6 @@
 #include <stdio.h>
 
 
-//1D
-//u1 = 0
-//3D
-//u1 = -alpha*(x^2 +y^2)
 double u1 (coords c){
 #if TRIDIM == 1
 #if HTRAP == 0
@@ -22,6 +18,7 @@ double u1 (coords c){
 #endif
 #endif
 }
+
 double u1px (coords c){
 #if TRIDIM == 1
 	return c.x; 
@@ -29,6 +26,7 @@ double u1px (coords c){
 	return 0.0;
 #endif
 }
+
 double u1py (coords c){
 #if TRIDIM == 1
 	return c.y;
@@ -36,40 +34,34 @@ double u1py (coords c){
 	return 0.0;
 #endif
 }
+
 double u1pz (coords c){
 #if TRIDIM == 1
 #if HTRAP == 0
-	return 0.0;//c.z;
+	return 0.0;
 #else
 	return c.z;
 #endif
 #else
 #if HTRAP == 0
-	return 0.0;//c.z;
+	return 0.0;
 #else
 	return c.x;
 #endif
 #endif
 }
-//1D
-//u2 = -r/a
-//3D
-//u2 = -r/a - ln r
+
 double u2(double d){
 #if TRIDIM == 1
-	return  -d/a - log(d);// log(fabs(1.0 - a/d));
+	return /* -d/a - log(d);*/ log(fabs(1.0 - a/d));
 #else
 	return -d/a;
 #endif
 }
 
 double u2p(double d){
-	return -1.0/a;//a/(d*(d-a));-1.0/a;
+	return /*-1.0/a;*/ a/(d*(d-a));
 }
-
-/*double u2pp(double d){
-	return -(a*(2*d-a))/(d*d*(d-a)*(d-a));//0;
-}*/
 
 //pn/po =exp(2*inc_u)
 //if inc_u > 0 then pn/po>1 -> pn > po
