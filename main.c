@@ -7,6 +7,10 @@
 
 double a = 100.0;
 unsigned int N = 10;
+#if TRIDIM == 1
+double Ap = 0.0;
+double a1D;
+#endif
 
  measurements* h;
 //TODO: save configuration
@@ -24,12 +28,15 @@ int main(int argc, char** argv){
 	}
 	if(argc > 2){ //a
 		 sscanf(argv[2],"%lf", &a);
+#if TRIDIM == 1
+		 a1D = -(1.0/(a-1.0326));
+#endif
 	}
 
 
 	double initial_dispersion = fabs(a)/(2.0*N);  //particle spawn (-initial_dispersion,initial dispersion)
 #if TRIDIM == 1
-	double histogram_range = 3.0;//( a/((double)(N-1)));
+	double histogram_range = ( a/((double)(N-1)))*10.0;
 #else
 	double histogram_range =  (fabs(a)/((double)(N-1)))*3.0; //[-r,r]
 #endif
@@ -51,10 +58,6 @@ int main(int argc, char** argv){
         FILE *fp_dpZ;
         fp_dpZ = fopen(str, "w");
 #endif
-	sprintf(str, "dist%d-%.2f.dat", N,a);
-	FILE *fp_dist;	
-	fp_dist = fopen(str, "w");
-
 	sprintf(str, "energy%d-%.2f.dat", N,a);
 	FILE *fp_ene;	
 	fp_ene = fopen(str, "w");
@@ -101,7 +104,6 @@ int main(int argc, char** argv){
 	fclose(fp_dpY);
 	fclose(fp_dpZ);
 #endif
-	fclose(fp_dist);
 	fclose(fp_ene);
 	fclose(fp_dp2D);
 	fclose(fp_dpDiag1);

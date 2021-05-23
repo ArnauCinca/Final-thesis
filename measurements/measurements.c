@@ -25,20 +25,20 @@ void addIteration(measurements* h, state* s){
 #if TRIDIM == 1
 	double x,y,z;
 	double center = centerOfMases(s);
-        int index_x,index_y,index_z;
+        double index_x,index_y,index_z;
         for(int i = 0; i < N; i++){
 		x = s->particle_coords[i].x + h->range;
 		y = s->particle_coords[i].y + h->range;
 		z = s->particle_coords[i].z - center + h->range;
-		index_x = (int)(x/h->delta_x);
-                index_y = (int)(y/h->delta_x);
-                index_z = (int)(z/h->delta_x);
+		index_x = (x/h->delta_x);
+                index_y = (y/h->delta_x);
+                index_z = (z/h->delta_x);
                 if(index_x >= 0 && index_x < h->size)
-                        h->histoX[index_x]++;
+                        h->histoX[(int)index_x]++;
                 if(index_y >= 0 && index_y < h->size)
-                        h->histoY[index_y]++;
+                        h->histoY[(int)index_y]++;
                 if(index_z >= 0 && index_z < h->size)
-                        h->histoZ[index_z]++;
+                        h->histoZ[(int)index_z]++;
 
 	}
 	++h->iterations;

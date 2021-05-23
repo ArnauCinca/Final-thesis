@@ -51,16 +51,25 @@ double u1pz (coords c){
 #endif
 }
 
+
+//a1d = -1.0*(1.0/(a - 1.0326))
+//a>>1 => a1D -> -0
+//a=1 => a1D -> +-inf
+//a<<1 => a1D -> 0
 double u2(double d){
 #if TRIDIM == 1
-	return /* -d/a - log(d);*/ log(fabs(1.0 - a/d));
+	return log(1.0 - a/d) - ((d*d) / (a1D * (Ap + d)));
 #else
 	return -d/a;
 #endif
 }
 
 double u2p(double d){
-	return /*-1.0/a;*/ a/(d*(d-a));
+#if TRIDIM == 1
+	return ( (d *d) / (a1D * pow(Ap - d, 2) ) ) - ( (2.0*d) / (a1D * (Ap - d) ) ) + ( (a) / (d*d*(1.0-a/d)));
+#else
+	return -1/a;
+#endif
 }
 
 //pn/po =exp(2*inc_u)
