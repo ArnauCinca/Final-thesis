@@ -17,18 +17,18 @@ int main(int argc, char** argv){
          sscanf(argv[1],"%d", &mf);
     }
 
-
-	int n[7] = {2,4,6,8,10,20,100};
-    FILE *fp_dp;
-    FILE *out;
+	int x = 35;
+	int n[35] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100};   //{2,4,6,8,10,20,100};
+    	FILE *fp_dp;
+   	FILE *out;
 	char str[256];
 	sprintf(str, "mf%d_error.dat", mf);
-    out = fopen(str, "w");
-	for(int j = 0; j<7; ++j){
+    	out = fopen(str, "w");
+	for(int j = 0; j<x; ++j){
 		N = n[j];
 		a = ((double)N-1.0)/(double)mf;
 		sprintf(str, "mf%d/dpX%d-%.2f.dat", mf,N,a);
-    	fp_dp = fopen(str, "r");
+    		fp_dp = fopen(str, "r");
 
 		double x, value;
 		double error_add = 0;

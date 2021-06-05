@@ -29,7 +29,7 @@ int main(int argc, char** argv){
 	if(argc > 2){ //a
 		 sscanf(argv[2],"%lf", &a);
 #if TRIDIM == 1
-		 a1D = -(1.0/(a-1.0326));
+		 a1D = -(1.0/a-1.0326);
 #endif
 	}
 
@@ -40,7 +40,7 @@ int main(int argc, char** argv){
 #else
 	double histogram_range =  (fabs(a)/((double)(N-1)))*3.0; //[-r,r]
 #endif
-	unsigned int histogram_size = 100;
+	unsigned int histogram_size = 250;
 
 
 
@@ -58,9 +58,9 @@ int main(int argc, char** argv){
         FILE *fp_dpZ;
         fp_dpZ = fopen(str, "w");
 #endif
-	sprintf(str, "energy%d-%.2f.dat", N,a);
+	sprintf(str, "energy.dat");
 	FILE *fp_ene;	
-	fp_ene = fopen(str, "w");
+	fp_ene = fopen(str, "a");
 
 
 	sprintf(str, "dp2D%d-%.2f.dat", N,a);
@@ -88,7 +88,7 @@ int main(int argc, char** argv){
  		addIteration(h, mc->state);
 		energy +=  getEnergy(mc->state);
 	} 
-	printf("Energy: %lf \n", energy/measurements);
+	fprintf(fp_ene,"%d %lf %lf \n", N, a, energy/measurements);
 	printf("AR N=%d a=%lf ar=%lf\n", N,a, acceptanceRatio(mc->state));
 	printDensityProfileX(h, fp_dpX);
 #if TRIDIM == 1

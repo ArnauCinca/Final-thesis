@@ -46,7 +46,7 @@ int main(int argc, char** argv){
 		s1[k] = (pow(-1,k) * (k+1))/(fact(N-2-k) * fact(N+k));
 
 	double range =  (a/((double)(N-1)))*3.0; //[-r,r]
-	unsigned int size = 100;
+	unsigned int size = 250;
 
 	double delta_x = (2.0*range)/size;
 	char str[256];
