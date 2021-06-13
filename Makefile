@@ -44,8 +44,10 @@ ONEDIM = -DTRIDIM=0
 	gcc makes/*.o makes/main/main.o -o main -lm -Wall $(TRIDIM) $(HTRAP)
 error: error.c
 	gcc error.c -o experiment1/error -lm
-castin: castin.c
-	gcc castin.c -o experiment1/castin -lm
+calogero: calogero.c
+	gcc calogero.c -o experiment1/calogero -lm
+castin2D: castin2D.c
+	gcc castin2D.c -o experiment1/castin2D -lm
 
 
 

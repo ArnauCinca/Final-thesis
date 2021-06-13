@@ -16,3 +16,4 @@ gnuplot -e " set terminal png size 1536,1024 enhanced fontscale 2 lw 4;
 			-2.0/g(x) w lines title 'Mean-Field',
 			-2.0/f(x) w lines title 'Confined Induced Resonance',
 			;"
+firefox a1vsg1.png &

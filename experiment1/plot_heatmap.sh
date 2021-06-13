@@ -3,8 +3,11 @@ mf=$1
 N=$2
 
 a=$(echo "($N-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
-gnuplot -e "set terminal png size 800,800; set output 'dp2D$mf-$N.png';
+gnuplot -e "set terminal png size 1024,1024 enhanced fontscale 2; 
+			set output 'dp2D$mf-$N.png';
 			set colors classic;
+			set xlabel 'x - center of masses (position)';
+			set ylabel 'y - center of masses (position)';
 			set view map;
 			splot 'mf$mf/dp2D$N-$a.dat' with pm3d title ''"
 firefox dp2D$mf-$N.png

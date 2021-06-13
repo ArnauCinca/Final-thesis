@@ -84,10 +84,6 @@ double u1ppz (coords c){
 #endif
 }
 
-//a1d = -1.0*(1.0/(a - 1.0326))
-//a>>1 => a1D -> -0
-//a=1 => a1D -> +-inf
-//a<<1 => a1D -> 0
 double u2(double d){
 #if TRIDIM == 1
 	return log(1.0 - a/d) - ((d*d) / (a1D * (Ap + d)));
@@ -155,7 +151,7 @@ double drift_force(state* s, int i, int axis){
 #if TRIDIM == 1
 			force += u2p(r) * (dist(s->particle_coords[i], orig()) - dist(s->particle_coords[j], orig()))/r;
 #else
-			force += u2p(r) * (s->particle_coords[i].x  - s->particle_coords[j].x)/r;//(dist(s->particle_coords[i], orig()) - dist(s->particle_coords[j], orig()))/r;
+			force += u2p(r) * (s->particle_coords[i].x  - s->particle_coords[j].x)/r;
 #endif
 
 		}
@@ -242,10 +238,10 @@ double getEnergy(state *s){
 	}
 
 
-	energy *= 1.0/2.0; //hbar =1 , m = 1  //hbar^2/2m
-//#if TRIDIM == 1
-//	energy += 1.0*1.0*N
-//#endif
+	energy *= -1.0/2.0; //hbar =1 , m = 1  //hbar^2/2m
+#if TRIDIM == 1
+	energy += 1.0*1.0*N
+#endif
 
 	return energy;
 }

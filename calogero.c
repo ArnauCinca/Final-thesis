@@ -50,7 +50,7 @@ int main(int argc, char** argv){
 
 	double delta_x = (2.0*range)/size;
 	char str[256];
-	sprintf(str, "dpCastin%d-%.2f.dat", N,a);
+	sprintf(str, "dpCalo%d-%.2f.dat", N,a);
 
 	FILE *fp_dp;	
 	fp_dp = fopen(str, "w");

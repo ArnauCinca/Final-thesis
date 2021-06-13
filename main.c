@@ -88,6 +88,8 @@ int main(int argc, char** argv){
  		addIteration(h, mc->state);
 		energy +=  getEnergy(mc->state);
 	} 
+
+
 	fprintf(fp_ene,"%d %lf %lf \n", N, a, energy/measurements);
 	printf("AR N=%d a=%lf ar=%lf\n", N,a, acceptanceRatio(mc->state));
 	printDensityProfileX(h, fp_dpX);

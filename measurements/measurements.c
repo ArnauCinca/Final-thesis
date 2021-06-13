@@ -1,6 +1,9 @@
 #include "measurements.h"
 #include <math.h>
 
+double E;
+double p;
+double* s1;
 
 double fact(double n){
         if(n == 0) return 1;
@@ -81,14 +84,12 @@ measurements* measurementsInit(double range, unsigned int size){
 	for (int i = 0; i < size; ++i)
 		h->heatmap[i] = calloc(size,sizeof(unsigned int));
 
-	 E = a/ (2.0*N);
-
-        p = pow(fact(N),2)/(N*E);
-
-
+	E = a/ (2.0*N);
+	p = pow(fact(N),2)/(N*E);
         s1 = malloc((N-1)*sizeof(double));
         for(int k = 0; k <= N-2; ++k)
                 s1[k] = (pow(-1,k) * (k+1))/(fact(N-2-k) * fact(N+k));
+
 #endif
 	h->iterations = 0;
 	return h;
@@ -97,115 +98,124 @@ measurements* measurementsInit(double range, unsigned int size){
 
 
 void printDensityProfileX(measurements* h, FILE *fp){
-    double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);
-    if(fp == NULL){
-        for(int i = 0; i<h->size; i++){
-            printf("%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoX[i] * normalization ); //size = 2 r =1 -> (-1,0) ->  (-.5, 0.5)i
-        }
-    }
-    else{
-        for(int i = 0; i<h->size; i++){
-            fprintf(fp, "%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoX[i] * normalization);
-        }
-    }
+	double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);
+    	if(fp == NULL){
+		for(int i = 0; i<h->size; i++){
+			printf("%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoX[i] * normalization );
+		}
+	}
+	else{
+		for(int i = 0; i<h->size; i++){
+			fprintf(fp, "%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoX[i] * normalization);
+		}
+	}
 }
 
 #if TRIDIM == 1
 void printDensityProfileY(measurements* h, FILE *fp){
-    double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);
-    if(fp == NULL){
-        for(int i = 0; i<h->size; i++){
-       	    printf("%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoY[i] * normalization ); //size = 2 r =1 -> (-1,0) ->  (-.5, 0.5)i
-        }
-    }
-    else{
-        for(int i = 0; i<h->size; i++){
-	    fprintf(fp, "%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoY[i] * normalization);
-        }
-    }
+	double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);
+	if(fp == NULL){
+		for(int i = 0; i<h->size; i++){
+			printf("%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoY[i] * normalization );
+		}
+	}
+	else{
+		for(int i = 0; i<h->size; i++){
+	    		fprintf(fp, "%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoY[i] * normalization);
+		}
+	}
 }
 void printDensityProfileZ(measurements* h, FILE *fp){
-    double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);
-    if(fp == NULL){
-        for(int i = 0; i<h->size; i++){
-            printf("%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoZ[i] * normalization ); //size = 2 r =1 -> (-1,0) ->  (-.5, 0.5)i
-        }
-    }
-    else{
-        for(int i = 0; i<h->size; i++){
-            fprintf(fp, "%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoZ[i] * normalization);
-        }
-    }
+	double normalization = 1.0/  ((double)N * (double)h->iterations * h->delta_x);
+	if(fp == NULL){
+		for(int i = 0; i<h->size; i++){
+			printf("%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoZ[i] * normalization );
+		}
+	}
+	else{
+		for(int i = 0; i<h->size; i++){
+			fprintf(fp, "%f: %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)h->histoZ[i] * normalization);
+		}
+	}
 }
 
 #else
 void printDensityProfile2D(measurements* h, FILE *fp){
-    double normalization = 1.0/  ((double)N  * (double)h->iterations * h->delta_x);
-    if(N < 85){
-        if(fp == NULL){
-            for(int i = 0; i < h->size; i++){
-                for(int j = 0; j < h->size; j++){
-                    printf("%f %f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)j*h->delta_x - h->range + 0.5 * h->delta_x ,((double)h->heatmap[i][j]*normalization/((double)N-1.0) - castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x) * castin( (double)j*h->delta_x - h->range + 0.5 * h->delta_x)) );
-                 }
-                 fprintf(fp,"\n");
-             }
-        }
-        else{
-            for(int i = 0; i < h->size; i++){
-                for(int j = 0; j < h->size; j++){
-                     fprintf(fp,"%f %f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)j*h->delta_x - h->range + 0.5 * h->delta_x ,((double)h->heatmap[i][j]*normalization/((double)N-1.0) - castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x) * castin( (double)j*h->delta_x - h->range + 0.5 * h->delta_x)) );
-                }
-                fprintf(fp,"\n");
-            }
-        }
-    }
-    else{
-    	if(fp == NULL){
-            for(int i = 0; i < h->size; i++){
-                for(int j = 0; j < h->size; j++){
-                    printf("%f %f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)j*h->delta_x - h->range + 0.5 * h->delta_x ,((double)h->heatmap[i][j]*normalization/((double)N-1.0) - h->histoX[i]*normalization * h->histoX[j]*normalization) );
-                }
-                fprintf(fp,"\n");
-            }
-        }
-        else{
-            for(int i = 0; i < h->size; i++){
-                for(int j = 0; j < h->size; j++){
-                    fprintf(fp,"%f %f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, (double)j*h->delta_x - h->range + 0.5 * h->delta_x ,((double)h->heatmap[i][j]*normalization/((double)N-1.0) - h->histoX[i]*normalization * h->histoX[j]*normalization) );
-                }
-                fprintf(fp,"\n");
-            }
-        }
-    }
+	double normalization = 2.0/  ((double)(N-1.0)  * (double)h->iterations * h->delta_x);
+	double xi,xj;
+	if(N < 85){  //MAX factorial
+		if(fp == NULL){
+			for(int i = 0; i < h->size; i++){
+				xi = (double)i*h->delta_x - h->range + 0.5 * h->delta_x;
+				for(int j = 0; j < h->size; j++){
+					xj = (double)j*h->delta_x - h->range + 0.5 * h->delta_x;
+					printf("%f %f %f \n", xi, xj, ((double)h->heatmap[i][j]*normalization - castin(xi) * castin(xj)) );
+				}
+				printf("\n");
+			}
+		}
+		else{
+			for(int i = 0; i < h->size; i++){
+				xi = (double)i*h->delta_x - h->range + 0.5 * h->delta_x;
+				for(int j = 0; j < h->size; j++){
+					xj = (double)j*h->delta_x - h->range + 0.5 * h->delta_x;
+					fprintf(fp,"%f %f %f \n", xi, xj, ((double)h->heatmap[i][j]*normalization - castin(xi) * castin(xj)) );
+				}
+				fprintf(fp,"\n");
+			}
+		}
+	}
+	else{
+		if(fp == NULL){
+			for(int i = 0; i < h->size; i++){
+				xi = (double)i*h->delta_x - h->range + 0.5 * h->delta_x;
+				for(int j = 0; j < h->size; j++){
+					xj = (double)j*h->delta_x - h->range + 0.5 * h->delta_x;
+					printf("%f %f %f \n",xi , xj ,((double)h->heatmap[i][j]*normalization - h->histoX[i]*normalization * h->histoX[j]*normalization) );
+				}
+				printf("\n");
+			}
+		}
+		else{
+			for(int i = 0; i < h->size; i++){
+				xi = (double)i*h->delta_x - h->range + 0.5 * h->delta_x;
+				for(int j = 0; j < h->size; j++){
+					xj = (double)j*h->delta_x - h->range + 0.5 * h->delta_x;
+					fprintf(fp,"%f %f %f \n", xi, xj, ((double)h->heatmap[i][j]*normalization - h->histoX[i]*normalization * h->histoX[j]*normalization) );
+				}
+				fprintf(fp,"\n");
+			}
+		}
+	}
 }
 
 
 
 void printDensityProfile2DDiag1(measurements* h, FILE *fp){
-    double normalization = 1.0/  ((double)N * (double)(N-1) * (double)h->iterations * h->delta_x);
-    if(fp == NULL){
-        for(int i = 0; i < h->size; i++){
-       		printf("%f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, ((double)h->heatmap[i][h->size - i - 1] *normalization - castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x) * castin( (double)(h->size - i - 1)*h->delta_x - h->range + 0.5 * h->delta_x)));
-        }
-    }
-    else{
-        for(int i = 0; i < h->size; i++){
-       		fprintf(fp,"%f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, ((double)h->heatmap[i][h->size - i - 1]  *normalization - castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x) * castin( (double)(h->size - i - 1)*h->delta_x - h->range + 0.5 * h->delta_x)));
-        }
-    }
+	double normalization = 2.0/  ((double)(N-1) * (double)h->iterations * h->delta_x);
+	if(fp == NULL){
+		for(int i = 0; i < h->size; i++){
+			printf("%f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, ((double)h->heatmap[i][h->size - i - 1] *normalization - castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x) * castin( (double)(h->size - i - 1)*h->delta_x - h->range + 0.5 * h->delta_x)));
+		}
+	}
+	else{
+		for(int i = 0; i < h->size; i++){
+			fprintf(fp,"%f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, ((double)h->heatmap[i][h->size - i - 1]  *normalization - castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x) * castin( (double)(h->size - i - 1)*h->delta_x - h->range + 0.5 * h->delta_x)));
+		}
+	}
 }
 
 void printDensityProfile2DDiag2(measurements* h, FILE *fp){
-    double normalization = 1.0/  ((double)N * (double)(N-1) * (double)h->iterations * h->delta_x);
-    if(fp == NULL){
-        for(int i = 0; i < h->size; i++){
-       		printf("%f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, ((double)h->heatmap[i][i]*normalization - castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x) * castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x)));
-        }
-    }
-    else{
-        for(int i = 0; i < h->size; i++){
-       		fprintf(fp,"%f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, ((double)h->heatmap[i][i] *normalization - castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x) * castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x)));
-        }
-    }
+	double normalization = 2.0/  ((double)(N-1) * (double)h->iterations * h->delta_x);
+	if(fp == NULL){
+		for(int i = 0; i < h->size; i++){
+			printf("%f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, ((double)h->heatmap[i][i]*normalization - castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x) * castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x)));
+		}
+	}
+	else{
+		for(int i = 0; i < h->size; i++){
+			fprintf(fp,"%f %f \n", (double)i*h->delta_x - h->range + 0.5 * h->delta_x, ((double)h->heatmap[i][i] *normalization - castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x) * castin( (double)i*h->delta_x - h->range + 0.5 * h->delta_x)));
+		}
+	}
 }
 #endif
