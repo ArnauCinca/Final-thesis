@@ -3,5 +3,9 @@ main
 *.dat
 *.png
 experiment1/error
-experiment1/castin
+aux_experiment/error
+experiment1/castin2D
+aux_experiment/castin2D
+experiment1/calogero
+aux_experiment/calogero
 *.txt
