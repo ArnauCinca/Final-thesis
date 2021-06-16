@@ -30,7 +30,8 @@ int main (int argc, char** argv) {
 	
 
 	E = a/(2.0*N);
-	c = -N/(16.0*E*E);
+
+	c = -((double)(N))/(16.0*E*E);
 
 	char str[256];
 	sprintf(str, "dp2D-Castin-%d-%.2f.dat",N,a);

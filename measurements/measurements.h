@@ -42,6 +42,7 @@ void printDensityProfileZ(measurements* h, FILE *fp);
 // print at the file fp the heat-map of the pair distribution function en the x axis.
 void printDensityProfile2D(measurements* h, FILE *fp);
 
+void printDensityProfile2DCastin(measurements* h, FILE *fp);
 // print at the file fp the [i,-i] diagonal of the heat-map.
 void printDensityProfile2DDiag1(measurements* h, FILE *fp);
 

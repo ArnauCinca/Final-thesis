@@ -66,6 +66,10 @@ int main(int argc, char** argv){
 	sprintf(str, "dp2D%d-%.2f.dat", N,a);
 	FILE *fp_dp2D;	
 	fp_dp2D = fopen(str, "w");
+
+	sprintf(str, "dp2DCastin%d-%.2f.dat", N,a);
+	FILE *fp_dp2DCastin;	
+	fp_dp2DCastin = fopen(str, "w");
 	
 	sprintf(str, "dpDiag1-%d-%.2f.dat", N,a);
 	FILE *fp_dpDiag1;	
@@ -98,6 +102,7 @@ int main(int argc, char** argv){
         printDensityProfileZ(h, fp_dpZ);
 #else
 	printDensityProfile2D(h, fp_dp2D);
+	printDensityProfile2DCastin(h, fp_dp2DCastin);
 	printDensityProfile2DDiag1(h, fp_dpDiag1);
 	printDensityProfile2DDiag2(h, fp_dpDiag2);
 #endif
@@ -108,6 +113,7 @@ int main(int argc, char** argv){
 #endif
 	fclose(fp_ene);
 	fclose(fp_dp2D);
+	fclose(fp_dp2DCastin);
 	fclose(fp_dpDiag1);
 	fclose(fp_dpDiag2);
 	

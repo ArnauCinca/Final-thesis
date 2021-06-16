@@ -4,6 +4,8 @@ N=$2
 
 a=$(echo "($N-1) / $mf" | bc -l | awk '{printf("%.2f\n", $1)}')
 
+./castin2D $N $a
+
 gnuplot -e "set terminal png size 1024,1024 enhanced fontscale 2; 
 			set output 'dp2D-Castin-$N-$a.png';
 			set colors classic;

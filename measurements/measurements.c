@@ -141,7 +141,35 @@ void printDensityProfileZ(measurements* h, FILE *fp){
 
 #else
 void printDensityProfile2D(measurements* h, FILE *fp){
-	double normalization = 2.0/  ((double)(N-1.0)  * (double)h->iterations * h->delta_x);
+	double normalization = 1.0/  ((double)(N)  * (double)h->iterations * h->delta_x);
+	double xi,xj;
+	if(fp == NULL){
+		for(int i = 0; i < h->size; i++){
+			xi = (double)i*h->delta_x - h->range + 0.5 * h->delta_x;
+			for(int j = 0; j < h->size; j++){
+				xj = (double)j*h->delta_x - h->range + 0.5 * h->delta_x;
+				printf("%f %f %f \n", xi, xj, (double)h->heatmap[i][j]*normalization );
+			}
+			printf("\n");
+		}
+	}
+	else{
+		for(int i = 0; i < h->size; i++){
+			xi = (double)i*h->delta_x - h->range + 0.5 * h->delta_x;
+			for(int j = 0; j < h->size; j++){
+				xj = (double)j*h->delta_x - h->range + 0.5 * h->delta_x;
+				fprintf(fp,"%f %f %f \n", xi, xj, (double)h->heatmap[i][j]*normalization );
+			}
+			fprintf(fp,"\n");
+		}
+	}
+}
+
+
+
+
+void printDensityProfile2DCastin(measurements* h, FILE *fp){
+	double normalization = 1.0/  ((double)(N)  * (double)h->iterations * h->delta_x);
 	double xi,xj;
 	if(N < 85){  //MAX factorial
 		if(fp == NULL){
@@ -171,7 +199,7 @@ void printDensityProfile2D(measurements* h, FILE *fp){
 				xi = (double)i*h->delta_x - h->range + 0.5 * h->delta_x;
 				for(int j = 0; j < h->size; j++){
 					xj = (double)j*h->delta_x - h->range + 0.5 * h->delta_x;
-					printf("%f %f %f \n",xi , xj ,((double)h->heatmap[i][j]*normalization - h->histoX[i]*normalization * h->histoX[j]*normalization) );
+					printf("%f %f %f \n",xi , xj ,((double)h->heatmap[i][j]*normalization - h->histoX[i]*normalization/1.0 * h->histoX[j]*normalization/1.0) );
 				}
 				printf("\n");
 			}
@@ -181,7 +209,7 @@ void printDensityProfile2D(measurements* h, FILE *fp){
 				xi = (double)i*h->delta_x - h->range + 0.5 * h->delta_x;
 				for(int j = 0; j < h->size; j++){
 					xj = (double)j*h->delta_x - h->range + 0.5 * h->delta_x;
-					fprintf(fp,"%f %f %f \n", xi, xj, ((double)h->heatmap[i][j]*normalization - h->histoX[i]*normalization * h->histoX[j]*normalization) );
+					fprintf(fp,"%f %f %f \n", xi, xj, ((double)h->heatmap[i][j]*normalization - h->histoX[i]*normalization/1.0 * h->histoX[j]*normalization/1.0) );
 				}
 				fprintf(fp,"\n");
 			}

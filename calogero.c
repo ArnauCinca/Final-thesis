@@ -16,7 +16,7 @@ double fact(double n){
 
 
 
-double castin(double x){
+double calogero(double x){
 	double s = 0.0;
 	for(int k = 0; k <= N-2; ++k)
 		s += s1[k] * exp(-(k+1)*fabs(x)/E);
@@ -58,7 +58,7 @@ int main(int argc, char** argv){
 	double x;
 	for(int i = 0; i<size; ++i){
 		x =  (double)i*delta_x - range + 0.5 * delta_x;
-       		fprintf(fp_dp,"%f: %f \n", x, castin(x));
+       		fprintf(fp_dp,"%f: %f \n", x, calogero(x));
 	}
 
 	//------------------------------------------
