@@ -40,7 +40,7 @@ int main(int argc, char** argv){
 #else
 	double histogram_range =  (fabs(a)/((double)(N-1)))*3.0; //[-r,r]
 #endif
-	unsigned int histogram_size = 250;
+	unsigned int histogram_size = 100;
 
 
 
@@ -79,8 +79,8 @@ int main(int argc, char** argv){
 	FILE *fp_dpDiag2;	
 	fp_dpDiag2 = fopen(str, "w");
 
-	unsigned int total_iterations = 1000000;
-	unsigned int measurements = 100000; 
+	unsigned int total_iterations = 10000000;
+	unsigned int measurements = 1000000; 
 
 	montecarlo* mc = montecarloInit(initial_dispersion);
 

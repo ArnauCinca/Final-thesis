@@ -11,7 +11,6 @@ double* s1;
 double fact(double n){
 	if(n == 0) return 1;
 	else return n*fact(n-1);
-
 }
 
 
