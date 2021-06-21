@@ -86,7 +86,7 @@ double u1ppz (coords c){
 
 double u2(double d){
 #if TRIDIM == 1
-	return log(1.0 - a/d) - ((d*d) / (a1D * (Ap + d)));
+	return log(1.0 - d/a) - ((d*d) / (a1D * (Ap + d)));
 #else
 	return -d/a;
 #endif
@@ -94,7 +94,8 @@ double u2(double d){
 
 double u2p(double d){
 #if TRIDIM == 1
-	return ( (d *d) / (a1D * pow(Ap - d, 2) ) ) - ( (2.0*d) / (a1D * (Ap - d) ) ) + ( (a) / (d*d*(1.0-a/d)));
+//	return - ( (2.0*d) / (a1D * (Ap + d) ) ) + ( (d *d) / (a1D * pow(Ap + d, 2) ) )  + ( (a) / (d*d*(1.0-a/d)));
+	return - (1.0/(a*(1.0-d/a))) - (2.0*d/(a1D*(d+Ap))) + ((d*d)/(a1D*pow(d+Ap,2)));
 #else
 	return -1.0/a;
 #endif
@@ -102,7 +103,8 @@ double u2p(double d){
 
 double u2pp(double d){
 #if TRIDIM == 1
-	return ((2.0*d*d) / (a1D*pow(Ap-d,3))) - ((2.0*a) / ((1.0-a/d)*d*d*d)) - ((a*a) / (pow(1.0-a/d,2)*d*d*d*d)) - ((2) / (a1D * (Ap -d)));
+//	return -(2.0/(a1D*(d+Ap))) + ((4.0*d)/(a1D*pow(d+Ap,2))) - ((2.0*d*d)/(a1D*pow(d+Ap,3))) - ((2.0*a)/((1.0-a/d)*d*d*d)) - ((a*a)/(pow(1.0-a/d ,2)*d*d*d*d));
+	return -(1.0/(a*a*pow(1-d/a,2))) - (2.0/(a1D*(d+Ap))) + ((4.0*d)/(a1D*pow(d+Ap,2))) - ((2.0*d*d)/(a1D*pow(d+Ap,3)));	
 #else
 	return 0.0;
 #endif
@@ -212,36 +214,46 @@ double centerOfMases(state* s){
 
 double getEnergy(state *s){
 	double energy = 0.0;
+	double ene1 = 0.0, ene21 = 0.0, ene22=0.0;
 	for(int i = 0; i<N; i++){
+		ene1 = 0.0;
 		//F
-		energy += pow(drift_force(s, i, 0), 2);
+		ene1 += (double)pow(drift_force(s, i, 0), 2);
 #if TRIDIM == 1
-		energy += pow(drift_force(s, i, 1), 2);
-		energy += pow(drift_force(s, i, 2), 2);
+		ene1 += (double)pow(drift_force(s, i, 1), 2);
+		ene1 += (double)pow(drift_force(s, i, 2), 2);
 #endif
+//	       if(ene1 < 0){
+  //              printf("X: %lf, Y: %lf, Z: %lf; En_pre_pre: %lf; \n",pow(drift_force(s, i, 0), 2),pow(drift_force(s, i, 1), 2),pow(drift_force(s, i, 2), 2), ene1);
+    //    }
 		//---
-		energy += u1ppx(s->particle_coords[i]);
+		ene1 += u1ppx(s->particle_coords[i]);
 #if TRIDIM == 1
-		energy += u1ppy(s->particle_coords[i]);
-		energy += u1ppz(s->particle_coords[i]);
+		ene1 += u1ppy(s->particle_coords[i]);
+		ene1 += u1ppz(s->particle_coords[i]);
 #endif
-		double ene = 0.0;
+
+		ene21 = 0.0;
+		ene22 = 0.0;
 		for( int j = 0; j<i; j++){
-			ene += u2pp(dist(s->particle_coords[i], s->particle_coords[j]));
+			ene21 += u2pp(dist(s->particle_coords[i], s->particle_coords[j]));
 #if TRIDIM == 1
-			ene += 2.0*u2p(dist(s->particle_coords[i], s->particle_coords[j]))/ dist(s->particle_coords[i], s->particle_coords[j]);
-#endif
-
-		
+			ene22 += 2.0*u2p(dist(s->particle_coords[i], s->particle_coords[j]))/ dist(s->particle_coords[i], s->particle_coords[j]);
+#endif				
 		}
-		energy += ene*2.0;
+		if(ene21 + ene22 < 0 ){
+//                printf("e21: %lf; e22: %lf; e2: %lf \n", ene21, ene22, ene21+ene22);			
+		}
+		energy += ene1 + fabs(ene21 + ene22)*2.0;
 	}
-
+	
 
 	energy *= -1.0/2.0; //hbar =1 , m = 1  //hbar^2/2m
 #if TRIDIM == 1
-	energy += 1.0*1.0*N
+	energy += 1.0*1.0*(double)N;
 #endif
-
+	if(energy < -1000){
+//		printf("En: %lf\n", energy);
+	}
 	return energy;
 }

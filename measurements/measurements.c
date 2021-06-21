@@ -113,7 +113,7 @@ void printDensityProfileX(measurements* h, FILE *fp){
 			b+= (double)h->histoX[i] * normalization;
 		}
 	}
-	printf("-----++++++--------  %d %lf %lf\n", N, a, b  * (double)h->delta_x );
+//	printf("-----++++++--------  %d %lf %lf\n", N, a, b  * (double)h->delta_x );
 }
 
 #if TRIDIM == 1
@@ -169,7 +169,7 @@ void printDensityProfile2D(measurements* h, FILE *fp){
 			fprintf(fp,"\n");
 		}
 	}
-	printf("--------1----------  %d %lf %lf\n", N, a, b * (double)h->delta_x * (double)h->delta_x);
+//	printf("--------1----------  %d %lf %lf\n", N, a, b * (double)h->delta_x * (double)h->delta_x);
 }
 
 
