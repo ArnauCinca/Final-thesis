@@ -12,10 +12,14 @@ gnuplot -e "set terminal png size 1536,1024 enhanced fontscale 2;
 			a3 = -1.0;
 			a1 = -1.0*(1.0/a3 - 1.0326);
 			ene1(x) = -(1.0*x*(x*x-1.0))/(a1*a1*6.0) ;
-			ene3(x) = x*1.0 + (-(1.0*x*(x*x-1.0))/(a3*a3*6.0));
+			ene12(x) =  -x*x*x/(6.0*a1*a1);
+			ene3(x) = x + (-(1.0*x*(x*x-1.0))/(a1*a1*6.0));
+			ene32(x) = x - x*x*x/(6.0*a1*a1);
 			plot
-			ene1(x) w line lw 4  title 'E_{1D}',
-			ene3(x) w line lw 4 title 'E_{3D}',
+			ene1(x) w line lw 4  title 'E_{1D} McGuire',
+			ene3(x) w line lw 4 title 'E_{3D} McGuire',
+			ene12(x) w line lw 4 title 'E_{3D} Mean-Field',
+			ene32(x) w line lw 4 title 'E_{3D} Mean-Field',
 			"
 
 firefox E1vsE3.png &

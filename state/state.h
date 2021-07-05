@@ -5,9 +5,11 @@
 
 
 #include "../coords/coords.h"
-
-extern double a;
 extern unsigned int N;
+extern double a1D;
+#if TRIDIM==1
+extern double a3D;
+#endif
 
 typedef struct state{
 	unsigned int rejected;

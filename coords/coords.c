@@ -37,11 +37,11 @@ void coordsRandomInit(coords* c, double initial_dispersion){
 }
 
 void randomMove(coords* c){
-	double r = a/(double)N;
+	double r = a1D/(double)N;
 #if TRIDIM == 1
 	//r *= N;
-	if(N != 2) r *= log(a)/(pow(log(N),3));
-	else r+=1.0-a;
+	if(N != 2) r *= pow(log(a3D),3)/(pow(log(N),3));
+	else r+=1.0-a3D;
 	//r*=(double)N*N/(a*a*a + (double)N);
 		//r *= (double)N/a;
 //	r /= fabs(log(fabs(a)));

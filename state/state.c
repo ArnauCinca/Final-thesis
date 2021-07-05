@@ -86,25 +86,25 @@ double u1ppz (coords c){
 
 double u2(double d){
 #if TRIDIM == 1
-	return log(1.0 - d/a) - ((d*d) / (a1D * (Ap + d)));
+	return log(1.0 - d/a3D) - ((d*d) / (a1D * (Ap + d)));
 #else
-	return -d/a;
+	return -d/a1D;
 #endif
 }
 
 double u2p(double d){
 #if TRIDIM == 1
 //	return - ( (2.0*d) / (a1D * (Ap + d) ) ) + ( (d *d) / (a1D * pow(Ap + d, 2) ) )  + ( (a) / (d*d*(1.0-a/d)));
-	return - (1.0/(a*(1.0-d/a))) - (2.0*d/(a1D*(d+Ap))) + ((d*d)/(a1D*pow(d+Ap,2)));
+	return - (1.0/(a3D*(1.0-d/a3D))) - (2.0*d/(a1D*(d+Ap))) + ((d*d)/(a1D*pow(d+Ap,2)));
 #else
-	return -1.0/a;
+	return -1.0/a1D;
 #endif
 }
 
 double u2pp(double d){
 #if TRIDIM == 1
 //	return -(2.0/(a1D*(d+Ap))) + ((4.0*d)/(a1D*pow(d+Ap,2))) - ((2.0*d*d)/(a1D*pow(d+Ap,3))) - ((2.0*a)/((1.0-a/d)*d*d*d)) - ((a*a)/(pow(1.0-a/d ,2)*d*d*d*d));
-	return -(1.0/(a*a*pow(1-d/a,2))) - (2.0/(a1D*(d+Ap))) + ((4.0*d)/(a1D*pow(d+Ap,2))) - ((2.0*d*d)/(a1D*pow(d+Ap,3)));	
+	return -(1.0/(a3D*a3D*pow(1-d/a3D,2))) - (2.0/(a1D*(d+Ap))) + ((4.0*d)/(a1D*pow(d+Ap,2))) - ((2.0*d*d)/(a1D*pow(d+Ap,3)));	
 #else
 	return 0.0;
 #endif

@@ -1,6 +1,6 @@
-extern double a;
+extern double a1D;
 extern unsigned int N;
 #if TRIDIM == 1
 extern double Ap;
-extern double a1D;
+extern double a3D;
 #endif

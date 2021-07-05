@@ -86,7 +86,7 @@ measurements* measurementsInit(double range, unsigned int size){
 	for (int i = 0; i < size; ++i)
 		h->heatmap[i] = calloc(size,sizeof(unsigned int));
 
-	E = a/ (2.0*N);
+	E = a1D/ (2.0*N);
 	p = pow(fact(N),2)/(N*E);
         s1 = malloc((N-1)*sizeof(double));
         for(int k = 0; k <= N-2; ++k)

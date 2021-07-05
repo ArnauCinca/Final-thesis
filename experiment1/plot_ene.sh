@@ -10,7 +10,7 @@ gnuplot -e "set terminal png size 1536,1024 enhanced fontscale 2;
 			set yrange [-2.2:0.2];
 			a(x) = x==1 ? 1.0:(x-1.0)/$mf;
 			ene(x) = -(1.0*x*(x*x-1.0))/(a(x)*a(x)*6.0) ;
-			ene2(x) = - x/6.0;
+			ene2(x) = - x*x*x/(6.0*a(x)*a(x));
 			plot
 			ene(x) w line lw 4  title 'McGuire',
 			ene2(x) w line lw 4 title 'Mean-field',

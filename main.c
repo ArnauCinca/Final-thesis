@@ -5,11 +5,11 @@
 #include "measurements/measurements.h"
 #include <math.h>
 
-double a = 100.0;
+double a1D = 100.0;
 unsigned int N = 10;
 #if TRIDIM == 1
-double Ap = 0.01;
-double a1D;
+double Ap = 5.0;
+double a3D = 10.0;
 #endif
 
  measurements* h;
@@ -27,18 +27,24 @@ int main(int argc, char** argv){
 		else return 0;
 	}
 	if(argc > 2){ //a
-		 sscanf(argv[2],"%lf", &a);
+
+#if TRIDIM == 0
+		 sscanf(argv[2],"%lf", &a1D);
+#endif
 #if TRIDIM == 1
-		 a1D = -(1.0/a-1.0326);
+		 
+		 sscanf(argv[2],"%lf", &a3D);
+		 a1D = -(1.0/a3D-1.0326);
+		 //a3D = 1.0/(-a1D+1.0326);
 #endif
 	}
 
 
-	double initial_dispersion = fabs(a)/(2.0*N);  //particle spawn (-initial_dispersion,initial dispersion)
+	double initial_dispersion = fabs(a1D)/(2.0*N);  //particle spawn (-initial_dispersion,initial dispersion)
 #if TRIDIM == 1
-	double histogram_range = ( a/((double)(N-1)))*1.5;
+	double histogram_range = ( a1D/((double)(N-1)))*1.5;
 #else
-	double histogram_range =  (fabs(a)/((double)(N-1)))*3.0; //[-r,r]
+	double histogram_range =  (fabs(a1D)/((double)(N-1)))*3.0; //[-r,r]
 #endif
 	unsigned int histogram_size = 200;
 
@@ -46,15 +52,15 @@ int main(int argc, char** argv){
 
 	char str[256];
 
-	sprintf(str, "dpX%d-%.2f.dat", N,a);
+	sprintf(str, "dpX%d-%.2f.dat", N,a1D);
 	FILE *fp_dpX;	
 	fp_dpX = fopen(str, "w");
 #if TRIDIM == 1
- 	sprintf(str, "dpY%d-%.2f.dat", N,a);
+ 	sprintf(str, "dpY%d-%.2f.dat", N,a1D);
         FILE *fp_dpY;
         fp_dpY = fopen(str, "w");
 
-       	sprintf(str, "dpZ%d-%.2f.dat", N,a);
+       	sprintf(str, "dpZ%d-%.2f.dat", N,a1D);
         FILE *fp_dpZ;
         fp_dpZ = fopen(str, "w");
 #endif
@@ -63,19 +69,19 @@ int main(int argc, char** argv){
 	fp_ene = fopen(str, "a");
 
 
-	sprintf(str, "dp2D%d-%.2f.dat", N,a);
+	sprintf(str, "dp2D%d-%.2f.dat", N,a1D);
 	FILE *fp_dp2D;	
 	fp_dp2D = fopen(str, "w");
 
-	sprintf(str, "dp2DCastin%d-%.2f.dat", N,a);
+	sprintf(str, "dp2DCastin%d-%.2f.dat", N,a1D);
 	FILE *fp_dp2DCastin;	
 	fp_dp2DCastin = fopen(str, "w");
 	
-	sprintf(str, "dpDiag1-%d-%.2f.dat", N,a);
+	sprintf(str, "dpDiag1-%d-%.2f.dat", N,a1D);
 	FILE *fp_dpDiag1;	
 	fp_dpDiag1 = fopen(str, "w");
 	
-	sprintf(str, "dpDiag2-%d-%.2f.dat", N,a);
+	sprintf(str, "dpDiag2-%d-%.2f.dat", N,a1D);
 	FILE *fp_dpDiag2;	
 	fp_dpDiag2 = fopen(str, "w");
 
@@ -94,8 +100,8 @@ int main(int argc, char** argv){
 	} 
 
 
-	fprintf(fp_ene,"%d %lf %lf \n", N, a, energy/measurements);
-	printf("AR N=%d a=%lf ar=%lf\n", N,a, acceptanceRatio(mc->state));
+	fprintf(fp_ene,"%d %lf %lf \n", N, a1D, energy/measurements);
+	printf("AR N=%d a=%lf ar=%lf\n", N,a1D, acceptanceRatio(mc->state));
 	printDensityProfileX(h, fp_dpX);
 #if TRIDIM == 1
 	printDensityProfileY(h, fp_dpY);
@@ -117,5 +123,10 @@ int main(int argc, char** argv){
 	fclose(fp_dpDiag1);
 	fclose(fp_dpDiag2);
 	
-	printf("Done: out%d-%.2f.dat\n", N, a);	
+	printf("Done: out%d_%.2f", N, a1D);	
+#if TRIDIM == 1
+	printf("_%.2f.dat\n",a3D);	
+#else
+	printf(".dat\n");	
+#endif
 }
